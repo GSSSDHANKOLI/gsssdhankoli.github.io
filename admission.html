@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admission - Gurukul School</title>
     <style>
-        /* Rainbow Wave Animation */
         @keyframes waveAnimation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -19,11 +18,8 @@
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
             animation: waveAnimation 10s ease infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border-bottom: 3px solid white;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-bottom: 3px solid white;
         }
 
         .header-content { display: flex; flex-direction: column; align-items: center; color: white; }
@@ -37,6 +33,15 @@
         .container { padding: 25px; max-width: 800px; margin: auto; }
         .card { background: white; border-radius: 15px; padding: 25px; margin-bottom: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border: 1px solid #f0f0f0; }
         
+        /* Multi-color RTE Box */
+        .rte-card { 
+            background: linear-gradient(135deg, #fff5f5 0%, #f0f7ff 100%);
+            border: 3px solid;
+            border-image: linear-gradient(to right, #ee7752, #e73c7e, #23a6d5) 1;
+            border-radius: 15px; /* Note: border-image disables standard border-radius, using shadow instead */
+            box-shadow: 0 8px 25px rgba(231, 60, 126, 0.15);
+        }
+        
         h2 { color: #0056b3; border-left: 5px solid #ffcc00; padding-left: 10px; margin-bottom: 20px; }
         
         .step-item { background: #fffdf5; border: 1px solid #ffeeba; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: flex; align-items: flex-start; }
@@ -46,18 +51,18 @@
         .docs-list li { padding: 12px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: center; font-weight: 500; }
         .docs-list li::before { content: '✅'; margin-right: 12px; font-size: 18px; }
 
-        /* Online Form Button */
-        .apply-btn { background: linear-gradient(90deg, #23a6d5, #23d5ab); color: white; padding: 18px; border: none; border-radius: 10px; width: 100%; font-size: 20px; font-weight: bold; cursor: pointer; text-decoration: none; display: block; text-align: center; margin-top: 20px; box-shadow: 0 4px 15px rgba(35, 166, 213, 0.4); transition: 0.3s; }
-        .apply-btn:hover { transform: scale(1.02); }
+        .apply-btn { background: linear-gradient(90deg, #23a6d5, #23d5ab); color: white; padding: 18px; border: none; border-radius: 10px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; text-decoration: none; display: block; text-align: center; margin-top: 15px; transition: 0.3s; }
+        .rte-btn { background: linear-gradient(90deg, #e73c7e, #ee7752); }
+        .apply-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-        footer { background: #111; color: white; padding: 20px; text-align: center; font-size: 12px; }
+        footer { background: #111; color: white; padding: 20px; text-align: center; font-size: 12px; margin-top: 30px; }
     </style>
 </head>
 <body>
 
     <div class="rainbow-header">
         <div class="header-content">
-            <img src="https://i.ibb.co/xtXjCfQ8/1000100274.jpg" class="logo-img" alt="Logo">
+            <img src="https://i.postimg.cc/m2tY8f96/school-logo.jpg" class="logo-img" alt="Logo">
             <div class="school-name">Gurukul School Dhankoli</div>
         </div>
     </div>
@@ -73,20 +78,17 @@
     <div class="container">
         <div class="card">
             <h2>प्रवेश प्रक्रिया (Session 2026-27)</h2>
-            <p>सत्र 2026-27 के लिए पंजीकरण शुरू हो चुके हैं। कृपया नीचे दी गई प्रक्रिया का पालन करें:</p>
-            
-            <div class="step-item">
-                <div class="step-num">1</div>
-                <div><b>ऑनलाइन पंजीकरण:</b> नीचे दिए गए "ऑनलाइन फॉर्म" बटन पर क्लिक करके छात्र की जानकारी भरें।</div>
-            </div>
-            <div class="step-item">
-                <div class="step-num">2</div>
-                <div><b>दस्तावेज़ सत्यापन:</b> नीचे दिए गए सभी आवश्यक दस्तावेजों की मूल प्रति और फोटोकॉपी स्कूल कार्यालय में लाएं।</div>
-            </div>
-            <div class="step-item">
-                <div class="step-num">3</div>
-                <div><b>प्रवेश निश्चित करें:</b> औपचारिकताएं पूरी करने के बाद छात्र का प्रवेश कन्फर्म किया जाएगा।</div>
-            </div>
+            <div class="step-item"><div class="step-num">1</div><div><b>ऑनलाइन पंजीकरण:</b> नीचे दिए गए फॉर्म पर क्लिक करके छात्र की जानकारी भरें।</div></div>
+            <div class="step-item"><div class="step-num">2</div><div><b>दस्तावेज़ सत्यापन:</b> सभी मूल दस्तावेजों की फोटोकॉपी स्कूल कार्यालय में लाएं।</div></div>
+            <div class="step-item"><div class="step-num">3</div><div><b>प्रवेश निश्चित करें:</b> औपचारिकताएं पूरी होने पर प्रवेश कन्फर्म किया जाएगा।</div></div>
+            <a href="https://forms.gle/QDrgzmXU5GoYys2p8" target="_blank" class="apply-btn">ऑनलाइन एडमिशन फॉर्म भरें ➔</a>
+        </div>
+
+        <div class="card rte-card">
+            <h2 style="color: #e73c7e;">R.T.E. नि:शुल्क प्रवेश (25% कोटा)</h2>
+            <p>सत्र 2026-27 के लिए शिक्षा के अधिकार (RTE) के तहत नि:शुल्क आवेदन करें।</p>
+            <p style="background: #fff; padding: 5px 10px; border-radius: 5px; display: inline-block; color: #d63384; font-weight: bold; font-size: 13px;">📢 अब घर बैठे आवेदन करे ।।</p>
+            <a href="https://forms.gle/3R9icBMii6NNshPP8" target="_blank" class="apply-btn rte-btn">R.T.E. ऑनलाइन आवेदन करें ➔</a>
         </div>
 
         <div class="card">
@@ -103,27 +105,10 @@
                 <li>जन-आधार कार्ड की प्रति</li>
             </ul>
         </div>
-
-        <div class="card" style="text-align: center;">
-            <h2>ऑनलाइन आवेदन करें</h2>
-            <p>घर बैठे एडमिशन के लिए नीचे दिए गए फॉर्म को भरें:</p>
-            <a href="https://forms.gle/QDrgzmXU5GoYys2p8" target="_blank" class="apply-btn">ऑनलाइन एडमिशन फॉर्म भरें ➔</a>
-        </div>
     </div>
-
-            </ul>
-        </div>
-
-        <div class="card" style="text-align: center;">
-            <h2>R.T.E ऑनलाइन आवेदन करें</h2>
-            <p>घर बैठे एडमिशन के लिए नीचे दिए गए फॉर्म को भरें:</p>
-            <a href="https://forms.gle/3R9icBMii6NNshPP8" target="blank" class="apply-btn">R.T.E.ऑनलाइन एडमिशन फॉर्म भरें ➔</a>
-        </div>
-    </div>
-            </div>
 
     <footer>
-        © 2026 Gurukul School Dhankoli (criated by piyush royal)| Admission Portal
+        © 2026 Gurukul School Dhankoli | Created by Piyush Royal
     </footer>
 
 </body>
