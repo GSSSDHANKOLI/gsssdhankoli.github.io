@@ -23,7 +23,7 @@
         }
 
         .header-content { display: flex; flex-direction: column; align-items: center; color: white; }
-        .logo-img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid white; background: white; margin-bottom: 5px; }
+        .logo-img { width: 65px; height: 65px; border-radius: 50%; border: 2px solid white; background: white; margin-bottom: 5px; object-fit: cover; }
         .school-name { font-size: 20px; font-weight: bold; }
 
         nav { background: #1a1a1a; display: flex; overflow-x: auto; position: sticky; top: 0; z-index: 1000; }
@@ -33,26 +33,18 @@
         .container { padding: 25px; max-width: 800px; margin: auto; }
         .card { background: white; border-radius: 15px; padding: 25px; margin-bottom: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border: 1px solid #f0f0f0; }
         
-        /* Multi-color RTE Box */
         .rte-card { 
             background: linear-gradient(135deg, #fff5f5 0%, #f0f7ff 100%);
             border: 3px solid;
             border-image: linear-gradient(to right, #ee7752, #e73c7e, #23a6d5) 1;
-            border-radius: 15px; /* Note: border-image disables standard border-radius, using shadow instead */
             box-shadow: 0 8px 25px rgba(231, 60, 126, 0.15);
         }
         
         h2 { color: #0056b3; border-left: 5px solid #ffcc00; padding-left: 10px; margin-bottom: 20px; }
         
-        .step-item { background: #fffdf5; border: 1px solid #ffeeba; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: flex; align-items: flex-start; }
-        .step-num { background: #ffcc00; color: #000; font-weight: bold; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
-
-        .docs-list { list-style: none; padding: 0; }
-        .docs-list li { padding: 12px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: center; font-weight: 500; }
-        .docs-list li::before { content: '✅'; margin-right: 12px; font-size: 18px; }
-
-        .apply-btn { background: linear-gradient(90deg, #23a6d5, #23d5ab); color: white; padding: 18px; border: none; border-radius: 10px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; text-decoration: none; display: block; text-align: center; margin-top: 15px; transition: 0.3s; }
-        .rte-btn { background: linear-gradient(90deg, #e73c7e, #ee7752); }
+        .apply-btn { color: white; padding: 18px; border: none; border-radius: 10px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; text-decoration: none; display: block; text-align: center; margin-top: 15px; transition: 0.3s; }
+        .call-btn-1 { background: linear-gradient(90deg, #23a6d5, #23d5ab); }
+        .call-btn-2 { background: linear-gradient(90deg, #e73c7e, #ee7752); }
         .apply-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
         footer { background: #111; color: white; padding: 20px; text-align: center; font-size: 12px; margin-top: 30px; }
@@ -62,7 +54,7 @@
 
     <div class="rainbow-header">
         <div class="header-content">
-            <img src="https://i.postimg.cc/m2tY8f96/school-logo.jpg" class="logo-img" alt="Logo">
+            <img src="https://i.ibb.co/HTjCh8gd/1000100841.jpg" class="logo-img" alt="Logo">
             <div class="school-name">Gurukul School Dhankoli</div>
         </div>
     </div>
@@ -77,32 +69,26 @@
 
     <div class="container">
         <div class="card">
-            <h2>प्रवेश प्रक्रिया (Session 2026-27)</h2>
-            <div class="step-item"><div class="step-num">1</div><div><b>ऑनलाइन पंजीकरण:</b> नीचे दिए गए फॉर्म पर क्लिक करके छात्र की जानकारी भरें।</div></div>
-            <div class="step-item"><div class="step-num">2</div><div><b>दस्तावेज़ सत्यापन:</b> सभी मूल दस्तावेजों की फोटोकॉपी स्कूल कार्यालय में लाएं।</div></div>
-            <div class="step-item"><div class="step-num">3</div><div><b>प्रवेश निश्चित करें:</b> औपचारिकताएं पूरी होने पर प्रवेश कन्फर्म किया जाएगा।</div></div>
-            <a href="https://forms.gle/QDrgzmXU5GoYys2p8" target="_blank" class="apply-btn">ऑनलाइन एडमिशन फॉर्म भरें ➔</a>
+            <h2>प्रवेश हेतु संपर्क करें (Session 2026-27)</h2>
+            <div class="step-item" style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+                <p>प्रवेश संबंधी किसी भी जानकारी के लिए नीचे दिए गए बटन पर क्लिक करके सीधे कॉल करें:</p>
+            </div>
+            <a href="tel:+919772564359" class="apply-btn call-btn-1">📞 कॉल करें: 9772564359 ➔</a>
         </div>
 
         <div class="card rte-card">
-            <h2 style="color: #e73c7e;">R.T.E.के तहत मुफ्त एडमिशन </h2>
-            <p>सत्र 2026-27 के लिए शिक्षा के अधिकार (RTE) के तहत नि:शुल्क आवेदन करें।</p>
-            <p style="background: #fff; padding: 5px 10px; border-radius: 5px; display: inline-block; color: #d63384; font-weight: bold; font-size: 13px;">📢 अब घर बैठे आवेदन करे ।।</p>
-            <a href="https://forms.gle/3R9icBMii6NNshPP8" target="_blank" class="apply-btn rte-btn">R.T.E. ऑनलाइन आवेदन करें ➔</a>
+            <h2 style="color: #e73c7e;">R.T.E. एडमिशन सहायता</h2>
+            <p>सत्र 2026-27 के लिए शिक्षा के अधिकार (RTE) के तहत फ्री एडमिशन की जानकारी के लिए यहाँ कॉल करें:</p>
+            <a href="tel:+919887071127" class="apply-btn call-btn-2">📞 कॉल करें: 9887071127 ➔</a>
         </div>
 
         <div class="card">
             <h2>आवश्यक दस्तावेज़ (Documents)</h2>
-            <ul class="docs-list">
-                <li>छात्र का जन्म प्रमाण पत्र (Birth Certificate)</li>
-                <li>पिछली कक्षा की ओरिजिनल मार्कशीट (Original Marksheet)</li>
-                <li>मूल टी.सी. (Transfer Certificate - काउंटर साइन सहित)</li>
-                <li>छात्र एवं माता-पिता का आधार कार्ड</li>
-                <li>छात्र की पासपोर्ट साइज फोटो (5 नवीनतम प्रतियां)</li>
-                <li>जाति प्रमाण पत्र (OBC/SC/ST हेतु)</li>
-                <li>मूल निवास प्रमाण पत्र की प्रति</li>
-                <li>छात्र का बैंक खाता विवरण</li>
-                <li>जन-आधार कार्ड की प्रति</li>
+            <ul class="docs-list" style="list-style: none; padding: 0;">
+                <li style="padding: 10px 0; border-bottom: 1px dashed #ddd;">✅ जन्म प्रमाण पत्र, मार्कशीट, टी.सी.</li>
+                <li style="padding: 10px 0; border-bottom: 1px dashed #ddd;">✅ आधार कार्ड (छात्र व माता-पिता)</li>
+                <li style="padding: 10px 0; border-bottom: 1px dashed #ddd;">✅ पासपोर्ट साइज फोटो, जन-आधार</li>
+                <li style="padding: 10px 0;">✅ जाति एवं मूल निवास प्रमाण पत्र</li>
             </ul>
         </div>
     </div>
