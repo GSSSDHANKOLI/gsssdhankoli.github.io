@@ -1,61 +1,112 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admission - Gurukul School</title>
+    <title>Admission Open - Gurukul School</title>
+    
     <style>
-        @keyframes waveAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        /* --- 1. COMMON ROYAL THEME --- */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f7f6; color: #333; overflow-x: hidden; }
 
-        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #ffffff; color: #333; line-height: 1.6; }
-
+        /* --- 2. HEADER STYLES --- */
+        @keyframes waveAnimation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
         .rainbow-header {
-            height: 110px;
+            height: 150px;
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
             animation: waveAnimation 10s ease infinite;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-bottom: 3px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-bottom: 3px solid white;
+            padding: 5px;
         }
 
-        .header-content { display: flex; flex-direction: column; align-items: center; color: white; }
-        .logo-img { width: 65px; height: 65px; border-radius: 50%; border: 2px solid white; background: white; margin-bottom: 5px; object-fit: cover; }
-        .school-name { font-size: 20px; font-weight: bold; }
-
-        nav { background: #1a1a1a; display: flex; overflow-x: auto; position: sticky; top: 0; z-index: 1000; }
-        nav a { color: white; padding: 15px 20px; text-decoration: none; font-weight: bold; font-size: 14px; }
-        .active-link { color: #ffcc00; border-bottom: 3px solid #ffcc00; }
-
-        .container { padding: 25px; max-width: 800px; margin: auto; }
-        .card { background: white; border-radius: 15px; padding: 25px; margin-bottom: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border: 1px solid #f0f0f0; }
+        .header-grid { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 850px; }
+        .center-section { display: flex; flex-direction: column; align-items: center; color: white; flex-grow: 1; margin: 0 5px; }
+        .main-logo { width: 75px; height: 75px; border-radius: 50%; border: 3px solid white; background: white; margin-bottom: 2px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .school-name { font-size: 18px; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); letter-spacing: 0.5px; text-align: center; line-height: 1.2; }
         
+        .profile-section { display: flex; flex-direction: column; align-items: center; color: white; text-align: center; width: 80px; }
+        .profile-img { width: 55px; height: 55px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.9); object-fit: cover; box-shadow: 0 3px 10px rgba(0,0,0,0.2); background: #f0f0f0; }
+        .profile-title { font-size: 10px; font-weight: bold; margin-top: 3px; background: rgba(0,0,0,0.3); padding: 2px 5px; border-radius: 8px; line-height: 1.1; }
+
+        @media (max-width: 500px) {
+            .profile-section { display: flex !important; transform: scale(0.9); }
+            .main-logo { width: 60px; height: 60px; }
+            .school-name { font-size: 14px; }
+            .rainbow-header { padding: 0 2px; }
+        }
+
+        /* --- 3. NAV --- */
+        nav { background: #1a1a1a; display: flex; overflow-x: auto; white-space: nowrap; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        nav a { color: white; padding: 15px 25px; text-decoration: none; font-weight: 600; font-size: 14px; text-transform: uppercase; transition: 0.3s; }
+        .active-link { color: #ffcc00; border-bottom: 3px solid #ffcc00; background: #222; }
+
+        /* --- 4. LOADER --- */
+        #loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease-out; }
+        .round-loader { width: 70px; height: 70px; border: 5px solid #f3f3f3; border-top: 5px solid #23a6d5; border-right: 5px solid #e73c7e; border-bottom: 5px solid #ee7752; border-radius: 50%; animation: spinRound 0.8s linear infinite; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        @keyframes spinRound { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { font-size: 15px; font-weight: 800; color: #333; text-align: center; text-transform: uppercase; letter-spacing: 1px; line-height: 1.5; background: linear-gradient(45deg, #23a6d5, #e73c7e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* --- 5. PAGE CONTENT --- */
+        .container { padding: 20px; max-width: 700px; margin: auto; }
+        
+        .card { background: white; border-radius: 16px; padding: 25px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #fff; }
+
+        /* Form Style */
+        .form-card { border-top: 5px solid #ff9800; }
+        h2 { text-align: center; color: #e65100; font-size: 22px; margin-bottom: 5px; font-weight: 800; }
+        .sub-head { text-align: center; color: #666; font-size: 14px; margin-bottom: 20px; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; font-size: 14px; }
+        .form-input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 8px; font-size: 15px; box-sizing: border-box; transition: 0.3s; }
+        .form-input:focus { border-color: #ff9800; outline: none; background: #fffbf5; }
+        
+        .submit-btn { width: 100%; padding: 15px; background: linear-gradient(90deg, #ff9800, #f57c00); color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3); transition: 0.3s; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4); }
+
+        /* RTE Card Style */
         .rte-card { 
             background: linear-gradient(135deg, #fff5f5 0%, #f0f7ff 100%);
-            border: 3px solid;
-            border-image: linear-gradient(to right, #ee7752, #e73c7e, #23a6d5) 1;
-            box-shadow: 0 8px 25px rgba(231, 60, 126, 0.15);
+            border: 2px solid; border-image: linear-gradient(to right, #ee7752, #e73c7e) 1;
+            text-align: center;
         }
-        
-        h2 { color: #0056b3; border-left: 5px solid #ffcc00; padding-left: 10px; margin-bottom: 20px; }
-        
-        .apply-btn { color: white; padding: 18px; border: none; border-radius: 10px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; text-decoration: none; display: block; text-align: center; margin-top: 15px; transition: 0.3s; }
-        .call-btn-1 { background: linear-gradient(90deg, #23a6d5, #23d5ab); }
-        .call-btn-2 { background: linear-gradient(90deg, #e73c7e, #ee7752); }
-        .apply-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .rte-title { color: #e73c7e; font-size: 20px; font-weight: 800; margin-bottom: 10px; }
+        .call-btn { display: block; background: linear-gradient(90deg, #e73c7e, #ee7752); color: white; padding: 12px; border-radius: 8px; font-weight: bold; text-decoration: none; margin-top: 15px; box-shadow: 0 4px 10px rgba(231, 60, 126, 0.3); }
 
-        footer { background: #111; color: white; padding: 20px; text-align: center; font-size: 12px; margin-top: 30px; }
+        /* Documents List Style */
+        .doc-list { list-style: none; padding: 0; margin: 0; }
+        .doc-item { padding: 12px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: center; font-weight: 500; color: #444; }
+        .doc-item:last-child { border-bottom: none; }
+        .doc-item::before { content: "📄"; margin-right: 12px; font-size: 18px; }
+
+        footer { background: #111; color: white; padding: 40px 20px; text-align: center; font-size: 13px; }
     </style>
 </head>
 <body>
 
+    <div id="loader-overlay">
+        <div class="round-loader"></div>
+        <div class="loading-text">Gurukul Senior Secondary<br>School Dhankoli</div>
+    </div>
+
     <div class="rainbow-header">
-        <div class="header-content">
-            <img src="https://i.ibb.co/HTjCh8gd/1000100841.jpg" class="logo-img" alt="Logo">
-            <div class="school-name">Gurukul School Dhankoli</div>
+        <div class="header-grid">
+            <div class="profile-section">
+                <img src="https://i.ibb.co/pBrTLLWK/In-Shot-20260121-122132554.png" class="profile-img" alt="H.S. Royal">
+                <span class="profile-title">H.S. Royal<br>(Chairman)</span>
+            </div>
+            <div class="center-section">
+                <img src="https://i.ibb.co/HTjCh8gd/1000100841.jpg" class="main-logo" alt="Logo">
+                <div class="school-name">Gurukul School Dhankoli</div>
+            </div>
+            <div class="profile-section">
+                <img src="https://i.ibb.co/4wzZPtN1/In-Shot-20260121-122550089.png" class="profile-img" alt="R.C. Royal">
+                <span class="profile-title">R.C. Royal<br>(Director)</span>
+            </div>
         </div>
     </div>
 
@@ -68,34 +119,108 @@
     </nav>
 
     <div class="container">
+        
+        <div class="card form-card">
+            <h2>📝 Admission Inquiry Form</h2>
+            <p class="sub-head">Fill this form & send directly to our WhatsApp</p>
+            
+            <form onsubmit="sendToWhatsapp(); return false;">
+                <div class="form-group">
+                    <label class="form-label">Student Name (विद्यार्थी का नाम)</label>
+                    <input type="text" id="sName" class="form-input" placeholder="Enter Full Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Father's Name (पिता का नाम)</label>
+                    <input type="text" id="fName" class="form-input" placeholder="Enter Father's Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Select Class (कक्षा चुनें)</label>
+                    <select id="sClass" class="form-input" required>
+                        <option value="">-- Choose Class --</option>
+                        <option value="Nursery">Nursery</option>
+                        <option value="LKG/UKG">LKG / UKG</option>
+                        <option value="1st to 5th">Primary (1st - 5th)</option>
+                        <option value="6th to 8th">Middle (6th - 8th)</option>
+                        <option value="9th">9th</option>
+                        <option value="10th">10th</option>
+                        <option value="11th Arts">11th Arts</option>
+                        <option value="11th Science">11th Science</option>
+                        <option value="12th Arts">12th Arts</option>
+                        <option value="12th Science">12th Science</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mobile Number (मोबाइल नंबर)</label>
+                    <input type="tel" id="sMobile" class="form-input" placeholder="10 Digit Mobile Number" pattern="[0-9]{10}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Address (पता)</label>
+                    <input type="text" id="sAddress" class="form-input" placeholder="Village / City Name" required>
+                </div>
+
+                <button type="submit" class="submit-btn">🚀 SEND INQUIRY</button>
+            </form>
+        </div>
+
         <div class="card">
-            <h2>प्रवेश हेतु संपर्क करें (Session 2026-27)</h2>
-            <div class="step-item" style="display: flex; align-items: flex-start; margin-bottom: 15px;">
-                <p>प्रवेश संबंधी किसी भी जानकारी के लिए नीचे दिए गए बटन पर क्लिक करके सीधे कॉल करें:</p>
-            </div>
-            <a href="tel:+919772564359" class="apply-btn call-btn-1">📞 कॉल करें: 9772564359 ➔</a>
+            <h2 style="color:#2c3e50;">📂 आवश्यक दस्तावेज़ (Documents)</h2>
+            <ul class="doc-list">
+                <li class="doc-item">जन्म प्रमाण पत्र, मार्कशीट, टी.सी. (TC)</li>
+                <li class="doc-item">आधार कार्ड (छात्र व माता-पिता)</li>
+                <li class="doc-item">पासपोर्ट साइज फोटो, जन-आधार</li>
+                <li class="doc-item">जाति एवं मूल निवास प्रमाण पत्र</li>
+            </ul>
         </div>
 
         <div class="card rte-card">
-            <h2 style="color: #e73c7e;">R.T.E. एडमिशन सहायता</h2>
-            <p>सत्र 2026-27 के लिए शिक्षा के अधिकार (RTE) के तहत फ्री एडमिशन की जानकारी के लिए यहाँ कॉल करें:</p>
-            <a href="tel:+919887071127" class="apply-btn call-btn-2">📞 कॉल करें: 9887071127 ➔</a>
+            <div class="rte-title">🎓 R.T.E. फ्री एडमिशन सहायता</div>
+            <p style="color:#555; font-size:14px;">सत्र 2026-27 के लिए शिक्षा के अधिकार (RTE) के तहत फ्री एडमिशन की जानकारी के लिए संपर्क करें:</p>
+            <a href="tel:9887071127" class="call-btn">📞  कॉल करें</a>
         </div>
 
-        <div class="card">
-            <h2>आवश्यक दस्तावेज़ (Documents)</h2>
-            <ul class="docs-list" style="list-style: none; padding: 0;">
-                <li style="padding: 10px 0; border-bottom: 1px dashed #ddd;">✅ जन्म प्रमाण पत्र, मार्कशीट, टी.सी.</li>
-                <li style="padding: 10px 0; border-bottom: 1px dashed #ddd;">✅ आधार कार्ड (छात्र व माता-पिता)</li>
-                <li style="padding: 10px 0; border-bottom: 1px dashed #ddd;">✅ पासपोर्ट साइज फोटो, जन-आधार</li>
-                <li style="padding: 10px 0;">✅ जाति एवं मूल निवास प्रमाण पत्र</li>
-            </ul>
-        </div>
     </div>
 
     <footer>
-        © 2026 Gurukul School Dhankoli | Created by Piyush Royal
+        © 2026 Gurukul School Dhankoli | Developed by Piyush Royal
     </footer>
+
+    <script>
+        // Loader Script
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader-overlay').style.opacity = '0';
+                setTimeout(function(){ 
+                    document.getElementById('loader-overlay').style.display = 'none';
+                }, 800);
+            }, 800);
+        });
+
+        // WhatsApp Logic
+        function sendToWhatsapp() {
+            var name = document.getElementById("sName").value;
+            var father = document.getElementById("fName").value;
+            var stuClass = document.getElementById("sClass").value;
+            var mobile = document.getElementById("sMobile").value;
+            var address = document.getElementById("sAddress").value;
+
+            // SCHOOL KA NUMBER (Change this if needed)
+            var phoneNumber = "919772564359"; 
+
+            var message = "*🔔 New Admission Inquiry 🔔*%0a%0a" + 
+                          "*👤 Name:* " + name + "%0a" + 
+                          "*👨‍👦 Father:* " + father + "%0a" + 
+                          "*📚 Class:* " + stuClass + "%0a" + 
+                          "*📞 Mobile:* " + mobile + "%0a" + 
+                          "*📍 Address:* " + address;
+
+            var url = "https://wa.me/" + phoneNumber + "?text=" + message;
+            window.open(url, '_blank').focus();
+        }
+    </script>
 
 </body>
 </html>
