@@ -3,60 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Gurukul School</title>
+    <title>Contact Us - Gurukul School Dhankoli</title>
+    
     <style>
-        /* Rainbow Wave Animation */
-        @keyframes waveAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        /* --- 1. COMMON ROYAL THEME --- */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f7f6; color: #333; overflow-x: hidden; }
 
-        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #ffffff; color: #333; line-height: 1.6; }
-
+        /* --- 2. HEADER STYLES --- */
+        @keyframes waveAnimation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
         .rainbow-header {
-            height: 110px;
+            height: 150px;
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
             animation: waveAnimation 10s ease infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             border-bottom: 3px solid white;
+            padding: 5px;
         }
 
-        .header-content { display: flex; flex-direction: column; align-items: center; color: white; }
-        .logo-img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid white; background: white; margin-bottom: 5px; }
-        .school-name { font-size: 20px; font-weight: bold; }
+        .header-grid {
+            display: flex; align-items: center; justify-content: space-between;
+            width: 100%; max-width: 850px;
+        }
 
-        nav { background: #1a1a1a; display: flex; overflow-x: auto; position: sticky; top: 0; z-index: 1000; }
-        nav a { color: white; padding: 15px 20px; text-decoration: none; font-weight: bold; font-size: 14px; }
-        .active-link { color: #ffcc00; border-bottom: 3px solid #ffcc00; }
+        .center-section {
+            display: flex; flex-direction: column; align-items: center; color: white;
+            flex-grow: 1; margin: 0 5px;
+        }
+        .main-logo { 
+            width: 75px; height: 75px; 
+            border-radius: 50%; border: 3px solid white; background: white; 
+            margin-bottom: 2px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+        }
+        .school-name { font-size: 18px; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); letter-spacing: 0.5px; text-align: center; line-height: 1.2; }
 
-        .container { padding: 25px; max-width: 800px; margin: auto; }
-        .card { background: white; border-radius: 15px; padding: 25px; margin-bottom: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border: 1px solid #f0f0f0; }
-        
-        h2 { color: #0056b3; border-left: 5px solid #ffcc00; padding-left: 10px; margin-bottom: 20px; }
-        
-        .contact-item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
-        .icon { font-size: 24px; margin-right: 15px; width: 40px; }
-        
-        .call-btn { background: #007bff; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 5px; font-size: 14px; transition: 0.3s; }
-        .call-btn:hover { background: #0056b3; }
-        
-        .map-box { width: 100%; height: 350px; border-radius: 12px; overflow: hidden; border: 1px solid #ddd; margin-top: 10px; }
-        .map-link-btn { display: block; background: #ea4335; color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 8px; margin-top: 15px; font-weight: bold; }
+        .profile-section {
+            display: flex; flex-direction: column; align-items: center; color: white; text-align: center;
+            width: 80px; /* Fixed width */
+        }
+        .profile-img {
+            width: 55px; height: 55px; 
+            border-radius: 50%; border: 2px solid rgba(255,255,255,0.9); 
+            object-fit: cover; box-shadow: 0 3px 10px rgba(0,0,0,0.2); background: #f0f0f0;
+        }
+        .profile-title {
+            font-size: 10px; font-weight: bold; margin-top: 3px;
+            background: rgba(0,0,0,0.3); padding: 2px 5px; border-radius: 8px; line-height: 1.1;
+        }
 
-        footer { background: #111; color: white; padding: 20px; text-align: center; font-size: 12px; margin-top: 40px; }
+        /* --- MOBILE VIEW FIX --- */
+        @media (max-width: 500px) {
+            .profile-section { display: flex !important; transform: scale(0.9); } 
+            .main-logo { width: 60px; height: 60px; }
+            .school-name { font-size: 14px; }
+            .rainbow-header { padding: 0 2px; }
+        }
+
+        /* --- 3. NAV --- */
+        nav { background: #1a1a1a; display: flex; overflow-x: auto; white-space: nowrap; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        nav a { color: white; padding: 15px 20px; text-decoration: none; font-weight: 600; font-size: 14px; text-transform: uppercase; transition: 0.3s; }
+        .active-link { color: #ffcc00; border-bottom: 3px solid #ffcc00; background: #222; }
+
+        /* --- 4. 3D LOADER --- */
+        #loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease-out; }
+        .round-loader {
+            width: 70px; height: 70px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #23a6d5;
+            border-right: 5px solid #e73c7e;
+            border-bottom: 5px solid #ee7752;
+            border-radius: 50%;
+            animation: spinRound 0.8s linear infinite;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        @keyframes spinRound { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { 
+            font-size: 15px; font-weight: 800; color: #333; 
+            text-align: center; text-transform: uppercase; 
+            letter-spacing: 1px; line-height: 1.5;
+            background: linear-gradient(45deg, #23a6d5, #e73c7e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- 5. CONTACT CARDS --- */
+        .container { padding: 20px; max-width: 800px; margin: auto; }
+        .card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #fff; }
+        
+        h2 { color: #2c3e50; border-left: 5px solid #23a6d5; padding-left: 15px; margin-bottom: 20px; font-size: 22px; font-weight: 800; }
+
+        .contact-item { 
+            display: flex; align-items: flex-start; padding: 15px; 
+            background: #f9f9f9; border-radius: 12px; margin-bottom: 12px; 
+            border: 1px solid #eee; transition: 0.2s;
+        }
+        .icon { font-size: 24px; margin-right: 15px; background: #e3f2fd; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #1565c0; flex-shrink: 0; }
+        .info-title { font-weight: bold; font-size: 15px; color: #333; margin-bottom: 4px; display: block; }
+        .info-text { font-size: 13px; color: #555; }
+        
+        .call-btn { 
+            background: linear-gradient(90deg, #1565c0, #0d47a1); 
+            color: white; padding: 6px 12px; border-radius: 20px; 
+            text-decoration: none; font-weight: bold; font-size: 11px; 
+            display: inline-block; margin-top: 6px; 
+        }
+
+        .map-box { width: 100%; height: 300px; border-radius: 12px; overflow: hidden; border: 2px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-top: 10px; }
+        .map-link-btn { display: block; background: #ea4335; color: white; text-align: center; padding: 14px; text-decoration: none; border-radius: 10px; margin-top: 15px; font-weight: bold; }
+
+        footer { background: #111; color: white; padding: 30px 20px; text-align: center; font-size: 12px; }
     </style>
 </head>
 <body>
 
+    <div id="loader-overlay">
+        <div class="round-loader"></div>
+        <div class="loading-text">
+            Gurukul Senior Secondary<br>School Dhankoli
+        </div>
+    </div>
+
     <div class="rainbow-header">
-        <div class="header-content">
-            <img src="https://i.ibb.co/xtXjCfQ8/1000100274.jpg" class="logo-img" alt="Logo">
-            <div class="school-name">Gurukul School Dhankoli</div>
+        <div class="header-grid">
+            
+            <div class="profile-section">
+                <img src="https://i.ibb.co/pBrTLLWK/In-Shot-20260121-122132554.png" class="profile-img" alt="H.S. Royal">
+                <span class="profile-title">H.S. Royal<br>(Chairman)</span>
+            </div>
+
+            <div class="center-section">
+                <img src="https://i.ibb.co/HTjCh8gd/1000100841.jpg" class="main-logo" alt="Logo">
+                <div class="school-name">Gurukul School Dhankoli</div>
+            </div>
+
+            <div class="profile-section">
+                <img src="https://i.ibb.co/4wzZPtN1/In-Shot-20260121-122550089.png" class="profile-img" alt="R.C. Royal">
+                <span class="profile-title">R.C. Royal<br>(Director)</span>
+            </div>
+
         </div>
     </div>
 
@@ -70,60 +157,66 @@
 
     <div class="container">
         <div class="card">
-            <h2>संपर्क सूत्र</h2>
+            <h2>📞 संपर्क सूत्र (Contact Details)</h2>
             
             <div class="contact-item">
                 <div class="icon">📍</div>
                 <div>
-                    <b>विद्यालय का पता:</b><br>
-                    गुरुकुल सीनियर सेकेंडरी स्कूल,<br>
-                     भाडासर रोड़ , धनकोली (मौलासर),<br>
-                    जिला - डीडवाना-कुचामन, राजस्थान - 341516
+                    <span class="info-title">विद्यालय का पता</span>
+                    <span class="info-text">गुरुकुल सीनियर सेकेंडरी स्कूल,<br>भाडासर रोड़, धनकोली (मौलासर),<br>जिला - डीडवाना-कुचामन, राजस्थान - 341516</span>
                 </div>
             </div>
 
             <div class="contact-item">
-                <div class="icon">📞</div>
+                <div class="icon">👨‍💼</div>
                 <div>
-                    <b>Chairman (एच. एस. रॉयल):</b><br>
-                    9887071127 <br>
-                    <a href="tel:9887071127" class="call-btn">कॉल करें</a>
+                    <span class="info-title">Chairman (एच. एस. रॉयल)</span>
+                    <span class="info-text">+91 98870 71127</span><br>
+                    <a href="tel:9887071127" class="call-btn">📞 Call Now</a>
                 </div>
             </div>
 
             <div class="contact-item">
-                <div class="icon">📞</div>
+                <div class="icon">🎓</div>
                 <div>
-                    <b>Director (आर. सी. रॉयल):</b><br>
-                    9772564359 <br>
-                    <a href="tel:977256435" class="call-btn">कॉल करें</a>
+                    <span class="info-title">Director (आर. सी. रॉयल)</span>
+                    <span class="info-text">+91 97725 64359</span><br>
+                    <a href="tel:9772564359" class="call-btn">📞 Call Now</a>
                 </div>
             </div>
-
-            <div class="contact-item">
+            
+             <div class="contact-item">
                 <div class="icon">⏰</div>
                 <div>
-                    <b>कार्यालय समय:</b><br>
-                    सोमवार से शनिवार: 08:30 AM से 02:30 PM तक
+                    <span class="info-title">कार्यालय समय</span>
+                    <span class="info-text">सोमवार से शनिवार<br>07:00AM से 07:00 PM तक</span>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <h2>विद्यालय की लोकेशन</h2>
+            <h2>🌍 लोकेशन (Location)</h2>
             <div class="map-box">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3550.5645!2d74.65!3d27.35!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396bc75c8897825d%3A0x868c676906a20835!2sGurukul%20School%20Dhankoli!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
-                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                <iframe width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=Gurukul+Senior+Secondary+School+Dhankoli+Rajasthan&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
             </div>
-            <a href="https://goo.gl/maps/AeZGCu3WLAFPqCNT8" target="_blank" class="map-link-btn">🗺️ Google Maps पर रास्ता देखें</a>
+            <a href="https://goo.gl/maps/AeZGCu3WLAFPqCNT8" class="map-link-btn">📍 Google Maps पर देखें ➔</a>
         </div>
     </div>
 
     <footer>
-        © 2026 Gurukul Sr. Sec. School Dhankoli(criated by piyush royal) | Bhadasar Road
+        © 2026 Gurukul School Dhankoli | Developed by Piyush Royal
     </footer>
+
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader-overlay').style.opacity = '0';
+                setTimeout(function(){ 
+                    document.getElementById('loader-overlay').style.display = 'none';
+                }, 800);
+            }, 800);
+        });
+    </script>
 
 </body>
 </html>
