@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery - Gurukul School Dhankoli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Yatra+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
     <style>
-        /* --- STYLES --- */
+        /* === GALLERY STYLES (पुराना वाला) === */
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: #f4f7f6; color: #333; overflow-x: hidden; }
         
         /* Loader */
@@ -26,20 +29,56 @@
         .active-link { color: #ffcc00; border-bottom: 3px solid #ffcc00; background: #222; }
 
         /* Gallery Grid */
-        .container { padding: 25px; max-width: 1000px; margin: auto; min-height: 500px; }
+        .container { padding: 25px; max-width: 1000px; margin: auto; min-height: 400px; }
         h2 { text-align: center; color: #2c3e50; margin-bottom: 30px; font-weight: 800; }
-        
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        
         .gallery-item { position: relative; border-radius: 16px; overflow: hidden; height: 280px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border: 4px solid white; transition: 0.3s; background: #eee; }
         .gallery-item:hover { transform: translateY(-5px); }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .gallery-item:hover img { transform: scale(1.1); }
-        
         .img-caption { position: absolute; bottom: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); color: white; padding: 15px; text-align: center; font-weight: bold; }
-
-        /* Empty State */
         .loading-msg { text-align: center; color: #777; font-style: italic; grid-column: 1 / -1; font-weight: bold; margin-top: 50px; }
+
+        /* === 👇 RTE POSTER STYLES (नया जोड़ा है) 👇 === */
+        .poster-wrapper {
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+        .poster {
+            width: 100%; max-width: 450px;
+            background: #fff8e1; border: 2px solid #333;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            overflow: hidden; position: relative;
+            font-family: 'Poppins', sans-serif;
+        }
+        .logo-section { text-align: center; padding: 15px 10px 5px 10px; background: #fff; }
+        .poster-logo { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; border: 2px solid #ff9800; }
+        
+        .poster-header { background: #0d47a1; color: white; text-align: center; padding: 15px 10px; border-top: 3px solid #fbc02d; }
+        .poster-header h1 { margin: 0; font-size: 22px; font-weight: 700; color: #fff; text-transform: uppercase; }
+        .poster-header h2 { margin: 5px 0; font-size: 14px; color: #ffeb3b; font-weight: 600; }
+        .sub-text { font-size: 11px; margin-top: 5px; opacity: 0.9; }
+
+        .poster-content { padding: 15px; }
+        .doc-box { background: #e8f5e9; border: 1px solid #4caf50; padding: 10px; border-radius: 10px; margin-bottom: 15px; }
+        .doc-title { color: #1b5e20; font-weight: 700; font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+        .doc-list { list-style: none; padding: 0; margin: 0; }
+        .doc-list li { font-size: 12px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; color: #333; }
+        .check-icon { color: #4caf50; font-weight: bold; }
+
+        .step-box { margin-top: 10px; }
+        .step { display: flex; gap: 10px; margin-bottom: 15px; align-items: flex-start; }
+        .step-num { background: #ff9800; color: white; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0; }
+        .step-text h4 { margin: 0 0 3px 0; font-size: 13px; color: #d84315; }
+        .step-text p { margin: 0; font-size: 11px; color: #555; line-height: 1.4; }
+        .highlight-school { background: #fff9c4; padding: 5px; border-radius: 5px; border: 1px dashed #fbc02d; margin-top: 5px; font-weight: bold; color: #0d47a1; }
+        .arrow-down { text-align: center; color: #ff9800; margin: -10px 0 10px 8px; font-size: 18px; }
+
+        .poster-footer { background: #0d47a1; color: white; text-align: center; padding: 15px; border-top: 3px solid #fbc02d; }
+        .school-name-footer { font-family: 'Yatra One', cursive; font-size: 18px; color: #ffeb3b; margin-bottom: 5px; }
+        .contact-info { font-size: 12px; margin: 3px 0; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
         footer { background: #111; color: white; padding: 40px 20px; text-align: center; font-size: 13px; margin-top: 40px; }
     </style>
@@ -48,7 +87,7 @@
 
     <div id="loader-overlay">
         <div class="spinner"></div>
-        <div class="loading-text">LOADING GALLERY...</div>
+        <div class="loading-text">LOADING...</div>
     </div>
 
     <div class="rainbow-header">
@@ -73,6 +112,53 @@
             <div class="loading-msg">Connecting to Google Sheet...</div>
         </div>
 
+        <br><hr style="margin: 40px 0; border: 0; border-top: 2px dashed #ccc;"><br>
+
+        <h2>🎓 RTE Admission सूचना</h2>
+        
+        <div class="poster-wrapper">
+            <div class="poster">
+                <div class="logo-section">
+                    
+
+                <div class="poster-header">
+                    <h1>🎓 निःशुल्क शिक्षा (R.T.E.) 🎓</h1>
+                    <h2>अपने बच्चे के उज्ज्वल भविष्य की शुरुआत करें!</h2>
+                    <div class="sub-text">राजस्थान सरकार द्वारा मान्यता प्राप्त निजी स्कूलों में<br>कक्षा-1 में निःशुल्क प्रवेश प्रक्रिया।</div>
+                </div>
+
+                <div class="poster-content">
+                    <div class="doc-box">
+                        <div class="doc-title"><i class="material-icons">description</i> आवश्यक दस्तावेज:</div>
+                        <ul class="doc-list">
+                            <li><span class="check-icon">✔</span> बच्चे का जन्म प्रमाण पत्र</li>
+                            <li><span class="check-icon">✔</span> आधार कार्ड (बच्चा और माता-पिता)</li>
+                            <li><span class="check-icon">✔</span> आय प्रमाण पत्र</li>
+                            <li><span class="check-icon">✔</span> जाति प्रमाण पत्र (यदि लागू हो)</li>
+                            <li><span class="check-icon">✔</span> मूल निवास / पते का सबूत</li>
+                            <li><span class="check-icon">✔</span> बच्चे का पासपोर्ट साइज फोटो</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step"><div class="step-num">1</div><div class="step-text"><h4>दस्तावेज़ तैयारी</h4><p>सबसे पहले ऊपर बताए गए सभी मूल दस्तावेज तैयार कर लें।</p></div></div>
+                        <div class="arrow-down">⬇</div>
+                        <div class="step"><div class="step-num">2</div><div class="step-text"><h4>ई-मित्र पर आवेदन</h4><p>नजदीकी ई-मित्र पर जाएं और R.T.E. के तहत ऑनलाइन आवेदन करें।</p></div></div>
+                        <div class="arrow-down">⬇</div>
+                        <div class="step"><div class="step-num">3</div><div class="step-text"><h4>स्कूल का चयन (महत्वपूर्ण!)</h4><p>आवेदन में स्कूल वरीयता (Preference) में सबसे पहले चुनें:</p><div class="highlight-school">★    धनकोली विकास एवं शिक्षण संस्थान, धनकोली ★</div></div></div>
+                        <div class="arrow-down">⬇</div>
+                        <div class="step"><div class="step-num">4</div><div class="step-text"><h4>संपर्क करें</h4><p>फॉर्म भरने के बाद स्कूल में संपर्क करें।</p></div></div>
+                    </div>
+                </div>
+
+                <div class="poster-footer">
+                    <div class="school-name-footer">गुरुकुल सीनियर सेकेंडरी स्कूल</div>
+                    <div class="contact-info"><i class="material-icons" style="font-size:14px;">call</i> 9772564359, 9887071127</div>
+                    <div class="contact-info"><i class="material-icons" style="font-size:14px;">location_on</i> भाड़ासर रोड़, धनकोली - 341516</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <footer>
@@ -81,11 +167,10 @@
     </footer>
 
     <script>
-        // --- NEW UPDATED LINK ---
+        // Google Sheet Script Logic
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby339sGl9mp1F3G3mzP_ZmfE9iB5Yj1y5XfA6SHO2dkPhB8cPcu3Ajj_H7grAON7sZxSQ/exec";
 
         window.onload = function() {
-            // 1. Hide Loader
             setTimeout(function() {
                 document.getElementById('loader-overlay').style.opacity = '0';
                 setTimeout(function(){ 
@@ -93,15 +178,12 @@
                 }, 800);
             }, 1000);
 
-            // 2. Fetch Photos
             fetch(SCRIPT_URL + "?type=gallery")
             .then(response => response.json())
             .then(data => {
                 const galleryContainer = document.getElementById("dynamic-gallery");
-                
                 if (data.photos && data.photos.length > 0) {
-                    galleryContainer.innerHTML = ""; // Clear message
-
+                    galleryContainer.innerHTML = "";
                     data.photos.forEach(photo => {
                         const item = document.createElement("div");
                         item.className = "gallery-item";
