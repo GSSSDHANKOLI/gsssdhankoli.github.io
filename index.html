@@ -13,7 +13,7 @@
 
     <style>
         /* --- GLOBAL & FONTS --- */
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background-color: #f4f6f8; color: #333; scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background-color: #f4f6f8; color: #333; }
         a { text-decoration: none; }
         
         /* --- 1. LOADER (COLORFUL GLOBE 🌐) --- */
@@ -43,7 +43,6 @@
         }
         @keyframes blink { 50% { opacity: 0.5; } }
 
-
         /* --- 2. RAINBOW HEADER --- */
         .main-header {
             background: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
@@ -62,7 +61,7 @@
         .logo-container img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid white; background: white; }
         .school-title { font-size: 24px; font-weight: bold; margin-top: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
 
-        /* --- NAVIGATION (UPDATED LINKS) --- */
+        /* --- NAVIGATION (EXTERNAL LINKS) --- */
         .navbar { background: #222; overflow-x: auto; white-space: nowrap; display: flex; box-shadow: 0 2px 5px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; }
         .navbar a { color: white; padding: 15px 20px; display: block; font-size: 14px; font-weight: 600; transition: 0.3s; }
         .navbar a:hover { background: #444; }
@@ -82,15 +81,13 @@
         .feature-box { background: #e3f2fd; padding: 12px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #2196f3; display: flex; align-items: center; color: #0d47a1; font-weight: 500; }
         .check-icon { color: #4caf50; margin-right: 10px; font-weight: bold; font-size: 18px; }
 
-        /* --- GALLERY GRID --- */
-        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .gallery-img { width: 100%; border-radius: 8px; height: 100px; object-fit: cover; border: 2px solid #eee; }
-
         /* --- BUTTONS & INPUTS --- */
         .btn-green { background: #4caf50; color: white; width: 100%; padding: 15px; border-radius: 8px; font-weight: bold; text-align: center; display: block; border: none; font-size: 16px; margin-top: 10px; }
         .btn-black { background: #111; color: white; width: 100%; padding: 15px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; font-size: 16px; }
         
         .login-header { text-align: center; margin-bottom: 20px; }
+        
+        /* 3D User Icon */
         .user-icon-circle { 
             width: 70px; height: 70px; 
             background: linear-gradient(135deg, #ff00cc, #3333ff, #00ccff);
@@ -102,14 +99,10 @@
         @keyframes iconPulse {
             0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); }
         }
+        
         .form-input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px; box-sizing: border-box; font-size: 15px; background: #fafafa; }
 
-        /* --- CONTACT & FOOTER --- */
-        .contact-header { display: flex; align-items: center; margin-bottom: 10px; font-size: 20px; font-weight: bold; color: #333; border-left: 4px solid #00acc1; padding-left: 10px; }
-        .contact-details-box { background: #f9f9f9; padding: 15px; border-radius: 10px; border-left: 5px solid #333; margin-top: 10px; }
-        .contact-row { margin: 8px 0; font-size: 14px; color: #444; display: flex; align-items: center; font-weight: 500; }
-        .contact-icon { color: #1976d2; margin-right: 8px; font-size: 16px; }
-
+        /* --- FOOTER --- */
         .main-footer { background: #000000; padding: 40px 20px; color: white; text-align: center; margin-top: 20px; }
         .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
         .social-btn { padding: 14px; border-radius: 8px; color: white; text-align: center; font-weight: bold; display: block; font-size: 14px; transition: 0.2s; }
@@ -150,11 +143,11 @@
         </div>
 
         <div class="navbar">
-            <a href="#home-screen" class="active">HOME</a>
-            <a href="#about-section">ABOUT</a>
-            <a href="#gallery-section">GALLERY</a>
-            <a href="#admission-section">ADMISSION</a>
-            <a href="#contact-section">CONTACT</a>
+            <a href="index.html" class="active">HOME</a>
+            <a href="about.html">ABOUT</a>
+            <a href="gallery.html">GALLERY</a>
+            <a href="admission.html">ADMISSION</a>
+            <a href="contact.html">CONTACT</a>
             <a href="https://drive.google.com/file/d/174ogAjVRBN2FofUG4DUYHB9CtG9fkLmi/view?usp=drivesdk" target="_blank" class="app-link">DOWNLOAD APP</a>
         </div>
 
@@ -174,37 +167,6 @@
                 <div class="feature-box"><span class="check-icon">☑</span> Expert & Dedicated Teachers</div>
                 <div class="feature-box"><span class="check-icon">☑</span> Computer Lab & Smart Classes</div>
                 <div class="feature-box"><span class="check-icon">☑</span> CCTV Camera se surakshit campus</div>
-            </div>
-
-            <div id="about-section" class="card">
-                <h3 style="border-left: 4px solid #9c27b0; padding-left: 10px;">ℹ️ About Us</h3>
-                <p style="color:#555; line-height:1.6; font-size:14px;">
-                    Gurukul School Dhankoli is committed to providing quality education with a blend of modern technology and traditional values. Our mission is to nurture students into responsible and successful citizens.
-                </p>
-                <div class="feature-box" style="background:#fff3e0; border-color:#ff9800; color:#e65100;">
-                    🎯 <b>Our Vision:</b> To be a center of excellence in education.
-                </div>
-            </div>
-
-            <div id="gallery-section" class="card">
-                <h3 style="border-left: 4px solid #e91e63; padding-left: 10px;">📸 Gallery</h3>
-                <div class="gallery-grid">
-                    <img src="https://i.postimg.cc/zBgfQZcR/1764775527008.jpg" class="gallery-img">
-                    <img src="https://i.ibb.co/HTjCh8gd/1000100841.jpg" class="gallery-img">
-                    <div style="background:#eee; height:100px; display:flex; align-items:center; justify-content:center; border-radius:8px;">Sports</div>
-                    <div style="background:#eee; height:100px; display:flex; align-items:center; justify-content:center; border-radius:8px;">Events</div>
-                </div>
-            </div>
-
-            <div id="admission-section" class="card">
-                <h3 style="border-left: 4px solid #4caf50; padding-left: 10px;">📝 Admission Open</h3>
-                <p style="font-size:14px; color:#333;">Admissions are open for the academic session 2026-27. Limited seats available.</p>
-                <ul style="padding-left:20px; font-size:14px; color:#555;">
-                    <li>Class Nursery to 12th (Arts)</li>
-                    <li>RTE Free Admission Available</li>
-                    <li>Transport Facility</li>
-                </ul>
-                <button class="btn-green" onclick="document.getElementById('contact-section').scrollIntoView();">Contact for Admission</button>
             </div>
 
             <div class="card" style="text-align:center;">
@@ -233,16 +195,14 @@
                 <p id="error-msg" style="color:red; text-align:center; display:none; margin-top:10px; font-weight:bold;"></p>
             </div>
 
-            <div id="contact-section" class="card">
+            <div class="card">
                 <div class="contact-header">
                     📞 Contact us.
                 </div>
                 <p style="font-size:14px; margin-top:10px; margin-left:5px;"><b>Address:</b> Dhankoli (Maulasar), Rajasthan</p>
-                
                 <div class="contact-details-box">
                     <div class="contact-row"><span class="contact-icon">👤</span> <b>Director(R.C.Royal):</b> 9772564359</div>
                     <div class="contact-row"><span class="contact-icon">👤</span> <b>Chairman(H.S.Royal):</b> 9887071127</div>
-                    <div class="contact-row"><span class="contact-icon">👤</span> <b>Treasurer(O.P.Royal):</b> 9887906618</div>
                 </div>
             </div>
 
@@ -320,13 +280,11 @@
             const user = JSON.parse(localStorage.getItem('gUser'));
             if(user) showDash(user);
             
-            // Loader Timeout
             setTimeout(() => {
                 document.getElementById('loader').style.opacity = '0';
                 setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 800);
             }, 3000); 
 
-            // Fetch Notice
             fetch(API).then(r=>r.json()).then(d => {
                 if(d.notification) document.getElementById('notif-text').innerText = d.notification;
             });
