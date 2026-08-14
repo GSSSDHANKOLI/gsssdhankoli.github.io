@@ -10,100 +10,161 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+    <!-- PWA Manifest Link -->
+    <link rel="manifest" href="manifest.json">
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+      }
+    </script>
+
+    <!-- OneSignal Push Notification Script -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(function(OneSignal) {
+        OneSignal.init({
+          appId: "14f8c158-10aa-4c7e-a2b9-f81f3247c4e3", 
+          notifyButton: { enable: true }
+        });
+      });
+    </script>
+
     <style>
+        /* --- DYNAMIC THEME VARIABLES (FOR EVERYTHING) --- */
+        :root {
+            --bg-color: #f4f6f8;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --nav-bg: #222222;
+            --header-bg: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            --notice-bg: #fafafa;
+            --btn-grad: linear-gradient(45deg, #1e3a8a, #9333ea);
+            --btn-text: #ffffff;
+            --btn-shadow: rgba(30, 58, 138, 0.4);
+            --border-color: #e2e8f0;
+            --notice-border: #f8bbd0;
+            --notice-accent: #e91e63;
+            --heading-color: #fbc02d;
+            --icon-color: #4caf50;
+        }
+
         /* --- GLOBAL & FONTS --- */
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background-color: #f4f6f8; color: #333; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.5s ease, color 0.5s ease; overflow-x: hidden; width: 100%; }
         a { text-decoration: none; }
+        * { box-sizing: border-box; }
         
-        /* --- LOADER --- */
-        #loader { position: fixed; inset: 0; background: #fff; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.8s ease-out; }
+        /* --- LOADER (FIXED) --- */
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.8s ease-out; }
         .globe-emoji { font-size: 80px; animation: spinColor 0.6s linear infinite; filter: drop-shadow(0 0 10px rgba(0,0,0,0.2)); cursor: default; }
         @keyframes spinColor { 0% { transform: rotate(0deg); filter: hue-rotate(0deg); } 100% { transform: rotate(360deg); filter: hue-rotate(360deg); } }
         .loading-text { margin-top: 15px; font-weight: bold; font-size: 18px; background: linear-gradient(90deg, red, blue, green, orange); -webkit-background-clip: text; color: transparent; animation: blink 1s infinite; }
         
         /* --- HEADER & NAV --- */
-        .main-header { background: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); background-size: 400% 400%; animation: rainbowFlow 8s ease infinite; padding: 20px; text-align: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .main-header { background: var(--header-bg); background-size: 400% 400%; animation: rainbowFlow 8s ease infinite; padding: 20px; text-align: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: background 0.5s ease; }
         @keyframes rainbowFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .logo-container img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid white; background: white; }
+        .logo-container img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid white; background: white; transition: transform 0.3s; }
+        .logo-container img:hover { transform: scale(1.05); }
         .school-title { font-size: 24px; font-weight: bold; margin-top: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
 
-        .navbar { background: #222; overflow-x: auto; white-space: nowrap; display: flex; box-shadow: 0 2px 5px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; }
+        /* --- HORIZONTAL SCROLL FIX --- */
+        .navbar-wrapper { background: var(--nav-bg); display: flex; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; transition: background 0.5s ease; width: 100%; }
+        .navbar { overflow-x: auto; white-space: nowrap; display: flex; align-items: center; flex: 1; scrollbar-width: none; }
+        .navbar::-webkit-scrollbar { display: none; }
         .navbar a { color: white; padding: 15px 20px; display: block; font-size: 14px; font-weight: 600; transition: 0.3s; }
-        .navbar a:hover { background: #444; }
+        .navbar a:hover { background: rgba(255,255,255,0.1); }
         .navbar a.active { color: #f1c40f; border-bottom: 3px solid #f1c40f; }
-        .navbar a.app-link { background: #4caf50; color: white; }
+        .navbar a.app-link { background: var(--icon-color); color: white; }
+
+        /* --- CUSTOM PROFESSIONAL THEME DROPDOWN --- */
+        .custom-theme-dropdown { position: relative; margin-left: 10px; margin-right: 15px; flex-shrink: 0; }
+        .theme-dropbtn { background: var(--btn-grad); color: var(--btn-text); padding: 8px 15px; font-size: 14px; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 10px var(--btn-shadow); transition: all 0.3s; }
+        .theme-dropbtn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .theme-dropdown-content { display: none; position: absolute; right: 0; top: 110%; background-color: var(--card-bg); min-width: 200px; box-shadow: 0px 8px 20px rgba(0,0,0,0.3); z-index: 1001; border-radius: 8px; border: 2px solid var(--border-color); overflow: hidden; max-height: 350px; overflow-y: auto; }
+        .theme-dropdown-content.show { display: block; animation: dropFade 0.3s ease; }
+        .theme-dropdown-content a { color: var(--text-color); padding: 12px 16px; text-decoration: none; display: block; font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--border-color); transition: all 0.3s ease; white-space: normal; }
+        .theme-dropdown-content a:last-child { border-bottom: none; }
+        .theme-dropdown-content a:hover { background: var(--btn-grad); color: var(--btn-text); padding-left: 20px; }
+        @keyframes dropFade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .theme-dropdown-content::-webkit-scrollbar { width: 5px; }
+        .theme-dropdown-content::-webkit-scrollbar-track { background: var(--card-bg); }
+        .theme-dropdown-content::-webkit-scrollbar-thumb { background: var(--notice-accent); border-radius: 5px; }
 
         /* --- NOTICES --- */
-        .notice-board-container { background: #e91e63; padding: 5px; }
-        .notice-board { background: #fff; margin: 10px auto; max-width: 600px; border-radius: 5px; border: 1px solid #ccc; border-left: 30px solid #f8bbd0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-height: 160px; overflow-y: auto; position: relative; }
-        .notice-board::before { content: ''; position: absolute; top: 0; bottom: 0; left: 3px; width: 2px; background: #e91e63; opacity: 0.5; }
-        .notice-line { border-bottom: 1px dashed #bdbdbd; padding: 10px 15px 10px 10px; font-size: 14px; color: #333; line-height: 1.5; display: block; font-weight: 600; }
+        .notice-board-container { background: var(--notice-accent); padding: 5px; transition: background 0.5s ease; }
+        .notice-board { background: var(--card-bg); margin: 10px auto; max-width: 800px; border-radius: 5px; border: 1px solid var(--border-color); border-left: 30px solid var(--notice-border); box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-height: 160px; overflow-y: auto; position: relative; transition: all 0.5s ease; width: 95%; }
+        .notice-board::before { content: ''; position: absolute; top: 0; bottom: 0; left: 3px; width: 2px; background: var(--notice-accent); opacity: 0.5; transition: background 0.5s ease; }
+        .notice-line { border-bottom: 1px dashed var(--border-color); padding: 10px 15px 10px 10px; font-size: 14px; color: var(--text-color); line-height: 1.5; display: block; font-weight: 600; transition: color 0.5s ease, border-color 0.5s ease; }
         .notice-line:last-child { border-bottom: none; }
         .new-sticker { background: yellow; color: red; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; animation: blink 1s infinite; margin-right: 8px; vertical-align: text-bottom; display: inline-block; }
-        @keyframes blink { 50% { opacity: 0; } }
 
         /* --- CARDS & BUTTONS --- */
-        .container { padding: 20px; max-width: 600px; margin: auto; }
-        .card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .hero-img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
-        .feature-box { background: #e3f2fd; padding: 12px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #2196f3; display: flex; align-items: center; color: #0d47a1; font-weight: 500; }
-        .check-icon { color: #4caf50; margin-right: 10px; font-weight: bold; font-size: 18px; }
+        .container { padding: 20px; max-width: 800px; margin: auto; width: 100%; transition: max-width 0.3s ease; }
+        .card { background: var(--card-bg); border-radius: 15px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid var(--border-color); transition: all 0.5s ease; }
+        .hero-img { width: 100%; border-radius: 10px; margin-bottom: 15px; object-fit: cover; }
+        .feature-box { background: rgba(0,0,0,0.03); padding: 15px; margin-bottom: 12px; border-radius: 8px; border-left: 4px solid var(--icon-color); display: flex; align-items: center; color: var(--text-color); font-weight: 600; transition: all 0.5s ease; }
+        .check-icon { color: var(--icon-color); margin-right: 12px; font-weight: bold; font-size: 18px; transition: color 0.5s ease; }
         
-        .btn-result, .btn-bus, .btn-app-designer, .btn-black, .btn-green { width: 100%; padding: 14px; border-radius: 6px; font-weight: 600; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; border: none; cursor: pointer; transition: all 0.2s ease; box-sizing: border-box; text-align: center; display: block; box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
-        .btn-result { background-color: #1e3a8a; color: #ffffff; margin-bottom: 20px; }
-        .btn-result:hover { background-color: #1e40af; transform: translateY(-1px); }
-        .btn-bus { background-color: #0f766e; color: #ffffff; margin-bottom: 20px; }
-        .btn-bus:hover { background-color: #115e59; transform: translateY(-1px); }
-        .btn-app-designer { background-color: #334155; color: #ffffff; margin-bottom: 0; }
-        .btn-app-designer:hover { background-color: #475569; transform: translateY(-1px); }
-        .btn-black { background-color: #1f2937; color: #ffffff; margin-bottom: 0; }
-        .btn-black:hover { background-color: #374151; }
-        .btn-black:disabled { background-color: #9ca3af; cursor: not-allowed; }
-        .btn-green { background-color: #16a34a; color: #ffffff; margin-top: 10px; }
-        .btn-green:hover { background-color: #15803d; }
-        .switch-role { margin-top: 15px; font-size: 14px; color: #1e3a8a; cursor: pointer; font-weight: bold; text-decoration: underline; text-align: center; }
+        .btn-app-designer, .btn-student-portal { width: 100%; padding: 16px; border-radius: 8px; font-weight: bold; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; border: none; cursor: pointer; transition: all 0.3s ease; text-align: center; display: flex; justify-content: center; align-items: center; }
+        .btn-app-designer { background-color: var(--nav-bg); color: #ffffff; margin-bottom: 0; border: 1px solid var(--border-color); }
+        .btn-app-designer:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        
+        .btn-student-portal { background: var(--btn-grad); color: var(--btn-text); margin-bottom: 25px; box-shadow: 0 5px 20px var(--btn-shadow); }
+        .btn-student-portal:hover { transform: translateY(-4px); box-shadow: 0 8px 25px var(--btn-shadow); filter: brightness(1.1); }
 
-        /* --- PORTAL STYLES --- */
-        .form-input, .form-select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 15px; box-sizing: border-box; background: #fafafa; font-size: 15px; outline: none; }
-        .form-input:focus, .form-select:focus { border-color: #1e3a8a; }
-        .dashboard-section { display: none; }
-        .hw-box { border-left: 4px solid #1e3a8a; background: #f8fafc; padding: 15px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #e2e8f0; }
-        .hw-date { font-size: 12px; color: #64748b; font-weight: bold; }
-        .hw-sub { font-size: 16px; color: #0f172a; font-weight: bold; margin: 5px 0; }
-        .hw-task { font-size: 14px; color: #334155; line-height: 1.5; }
-        .contact-header { font-weight: bold; font-size: 18px; border-left: 4px solid #fbc02d; padding-left: 10px; margin-bottom: 10px; }
-        .contact-row { margin: 8px 0; font-size: 15px; }
+        .contact-header { font-weight: bold; font-size: 20px; border-left: 4px solid var(--heading-color); padding-left: 12px; margin-bottom: 15px; color: var(--text-color); transition: all 0.5s ease; }
+        .contact-row { margin: 10px 0; font-size: 16px; color: var(--text-color); display: flex; align-items: center; }
+        .contact-row .contact-icon { margin-right: 10px; color: var(--icon-color); }
         
-        .main-footer { background: #000000; padding: 40px 20px; color: white; text-align: center; margin-top: 20px; }
-        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; max-width: 600px; margin-left: auto; margin-right: auto; }
-        .social-btn { padding: 14px; border-radius: 8px; color: white; text-align: center; font-weight: bold; display: block; font-size: 14px; transition: 0.2s; }
+        /* --- FOOTER --- */
+        .main-footer { background: var(--nav-bg); padding: 50px 20px; color: white; text-align: center; margin-top: 40px; transition: background 0.5s ease; }
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px auto; max-width: 600px; }
+        .social-btn { padding: 14px; border-radius: 8px; color: white; text-align: center; font-weight: bold; display: block; font-size: 14px; transition: 0.3s; text-decoration: none; }
+        .social-btn:hover { transform: scale(1.05); }
         .tg { background: #0088cc; } .yt { background: #ff0000; } .ig { background: #e1306c; } .wa { background: #25d366; }
 
         /* --- RAINBOW & NOTICE SECTIONS --- */
-        .rainbow-section { padding: 40px 20px; background: #fff; text-align: center; }
-        .rainbow-title { font-size: 30px; font-weight: 900; margin-bottom: 40px; text-transform: uppercase; background: linear-gradient(to right, #ff0000, #ff7f00, #00ff00, #0000ff, #4b0082, #9400d3); -webkit-background-clip: text; color: transparent; animation: rainbowText 3s infinite; }
-        .r-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; max-width: 1000px; margin: 0 auto; }
-        .r-card { background: white; padding: 25px; border-radius: 15px; border: 3px solid transparent; position: relative; transition: 0.3s; border-image: linear-gradient(45deg, #ff0000, #ffff00, #0000ff) 1; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .r-card:hover { transform: translateY(-10px); box-shadow: 0 0 10px #ff0000; border-radius: 15px; }
-        .r-icon { font-size: 40px; margin-bottom: 15px; display: inline-block; background: linear-gradient(45deg, #ff00cc, #3333ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .rainbow-section { padding: 60px 20px; background: var(--card-bg); text-align: center; transition: background 0.5s ease;}
+        .rainbow-title { font-size: 32px; font-weight: 900; margin-bottom: 40px; text-transform: uppercase; background: linear-gradient(to right, #ff0000, #ff7f00, #00ff00, #0000ff, #4b0082, #9400d3); -webkit-background-clip: text; color: transparent; animation: rainbowText 3s infinite; }
+        .r-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1100px; margin: 0 auto; }
+        .r-card { background: var(--bg-color); padding: 30px; border-radius: 15px; border: 2px solid var(--border-color); position: relative; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.05); color: var(--text-color); }
+        .r-card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: var(--notice-accent); }
+        .r-icon { font-size: 45px; margin-bottom: 20px; display: inline-block; background: var(--btn-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: background 0.5s ease; }
+        .r-head { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+        .r-desc { font-size: 14px; opacity: 0.8; line-height: 1.6; }
 
-        .notice-section { padding: 40px 20px; background: #fafafa; text-align: center; border-top: 2px dashed #ddd; }
-        .notice-title { font-size: 32px; font-weight: 900; margin-bottom: 40px; background: linear-gradient(to left, #ff0000, #ff00cc, #3333ff); -webkit-background-clip: text; color: transparent; }
-        .notice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
-        .n-card { background: white; padding: 20px; border: 4px solid transparent; border-radius: 10px; border-image-slice: 1; border-image-source: linear-gradient(45deg, #ff0000, #ff7f00); box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; position: relative; }
-        .n-badge { background: #ff0000; color: white; padding: 5px 15px; font-size: 12px; font-weight: bold; border-radius: 20px; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); }
-        .n-percent { font-size: 35px; font-weight: 900; color: #333; margin: 10px 0; display: block; }
-        .special-card { background: #fff0f0; border: none; box-shadow: 0 0 15px #ff0000; }
+        .notice-section { padding: 60px 20px; background: var(--notice-bg); text-align: center; border-top: 2px dashed var(--border-color); transition: background 0.5s ease; }
+        .notice-title { font-size: 32px; font-weight: 900; margin-bottom: 50px; background: var(--btn-grad); -webkit-background-clip: text; color: transparent; transition: background 0.5s ease;}
+        .notice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1100px; margin: 0 auto; }
+        .n-card { background: var(--card-bg); padding: 25px; border: 2px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: all 0.3s ease; position: relative; color: var(--text-color); }
+        .n-card:hover { transform: translateY(-5px); border-color: var(--notice-accent); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .n-badge { background: var(--notice-accent); color: white; padding: 6px 18px; font-size: 12px; font-weight: bold; border-radius: 20px; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); transition: background 0.5s ease; }
+        .n-percent { font-size: 38px; font-weight: 900; color: var(--heading-color); margin: 15px 0; display: block; transition: color 0.5s ease; }
+        .special-card { background: var(--bg-color); border: 2px solid var(--notice-accent); }
 
         /* --- CUSTOM TOAST NOTICE --- */
-        #custom-toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 10000; left: 50%; bottom: 30px; font-size: 16px; transform: translateX(-50%); box-shadow: 0px 4px 10px rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.5s, bottom 0.5s; }
+        #custom-toast { visibility: hidden; min-width: 250px; background-color: var(--text-color); color: var(--card-bg); text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 10000; left: 50%; bottom: 30px; font-size: 16px; transform: translateX(-50%); box-shadow: 0px 4px 15px rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.5s, bottom 0.5s; }
         #custom-toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+
+        /* --- DESKTOP (PC) RESPONSIVE DESIGN --- */
+        @media (min-width: 768px) {
+            .navbar-wrapper { justify-content: center; padding: 0 20px; }
+            .navbar { flex: none; justify-content: center; }
+            .main-header { padding: 40px 20px; }
+            .logo-container img { width: 100px; height: 100px; }
+            .school-title { font-size: 30px; }
+            .social-grid { grid-template-columns: repeat(4, 1fr); max-width: 800px; }
+            .custom-theme-dropdown { position: absolute; right: 20px; margin: 0; }
+            .btn-student-portal, .btn-app-designer { padding: 20px; font-size: 18px; }
+            .hero-img { height: 350px; }
+        }
     </style>
 </head>
 <body>
 
     <div id="custom-toast"></div>
 
+    <!-- FIXED LOADER -->
     <div id="loader">
         <div class="globe-emoji">🌐</div>
         <p class="loading-text">GURUKUL LOADING...</p>
@@ -112,18 +173,41 @@
     <!-- MAIN HEADER -->
     <div class="main-header">
         <div class="logo-container">
-            <img src="https://i.ibb.co/HTjCh8gd/1000100841.jpg" alt="Logo">
+            <img src="https://gsssdhankoli.github.io/Logo.png/logo.png" alt="School Logo">
         </div>
         <div class="school-title">Gurukul School Dhankoli</div>
     </div>
 
-    <div class="navbar">
-        <a href="index.html" class="active">HOME</a>
-        <a href="about.html">ABOUT</a>
-        <a href="gallery.html">GALLERY</a>
-        <a href="admission.html">ADMISSION</a>
-        <a href="contact.html">CONTACT</a>
-        <a href="https://drive.google.com/file/d/1MEEBxqDFQvKdDInTJbFQR188JCAKKcDE/view?usp=drivesdk" target="_blank" class="app-link">DOWNLOAD APP</a>
+    <!-- FIXED NAVBAR WRAPPER (Prevents Horizontal Scroll Bug) -->
+    <div class="navbar-wrapper">
+        <div class="navbar">
+            <a href="index.html" class="active">HOME</a>
+            <a href="about.html">ABOUT</a>
+            <a href="gallery.html">GALLERY</a>
+            <a href="admission.html">ADMISSION</a>
+            <a href="contact.html">CONTACT</a>
+            <a href="https://drive.google.com/file/d/1MEEBxqDFQvKdDInTJbFQR188JCAKKcDE/view?usp=drivesdk" target="_blank" class="app-link">DOWNLOAD APP</a>
+        </div>
+        
+        <!-- Custom Professional Theme Changer -->
+        <div class="custom-theme-dropdown">
+            <button class="theme-dropbtn" onclick="toggleThemeDropdown()">
+                <span id="selectedThemeText">🟢 Default Theme</span> <i class="fas fa-palette"></i>
+            </button>
+            <div class="theme-dropdown-content" id="themeDropdown">
+                <a href="#" onclick="applyAndSaveTheme('default', '🟢 Default Theme', event)">🟢 Default Theme</a>
+                <a href="#" onclick="applyAndSaveTheme('dark', '🌙 Dark Mode', event)">🌙 Dark Mode</a>
+                <a href="#" onclick="applyAndSaveTheme('neon', '💫 Cyber Neon', event)">💫 Cyber Neon</a>
+                <a href="#" onclick="applyAndSaveTheme('ocean', '🌊 Deep Ocean', event)">🌊 Deep Ocean</a>
+                <a href="#" onclick="applyAndSaveTheme('forest', '🌲 Nature Forest', event)">🌲 Nature Forest</a>
+                <a href="#" onclick="applyAndSaveTheme('sunset', '🌅 Sunset Glow', event)">🌅 Sunset Glow</a>
+                <a href="#" onclick="applyAndSaveTheme('royal', '👑 Royal Purple', event)">👑 Royal Purple</a>
+                <a href="#" onclick="applyAndSaveTheme('hacker', '💻 Hacker Matrix', event)">💻 Hacker Matrix</a>
+                <a href="#" onclick="applyAndSaveTheme('rose', '🌹 Rose Pink', event)">🌹 Rose Pink</a>
+                <a href="#" onclick="applyAndSaveTheme('midnight', '🌃 Midnight City', event)">🌃 Midnight City</a>
+                <a href="#" onclick="applyAndSaveTheme('coffee', '☕ Coffee Bean', event)">☕ Coffee Bean</a>
+            </div>
+        </div>
     </div>
 
     <div class="notice-board-container">
@@ -136,7 +220,7 @@
         
         <div class="card">
             <img src="https://i.postimg.cc/zBgfQZcR/1764775527008.jpg" class="hero-img" alt="School">
-            <h3 style="color:#fbc02d; margin-top:0; border-left: 4px solid #fbc02d; padding-left: 10px;">🌟 Hamari Visheshtayein</h3>
+            <h3 style="color:var(--heading-color); margin-top:0; border-left: 4px solid var(--heading-color); padding-left: 10px; transition: color 0.5s;">🌟 Hamari Visheshtayein</h3>
             <div class="feature-box"><span class="check-icon">☑</span> Sanskar aur Shiksha ka Sangam</div>
             <div class="feature-box"><span class="check-icon">☑</span> Shant aur Shuddh Vatavaran</div>
             <div class="feature-box"><span class="check-icon">☑</span> Expert & Dedicated Teachers</div>
@@ -144,131 +228,41 @@
             <div class="feature-box"><span class="check-icon">☑</span> CCTV Camera se surakshit campus</div>
         </div>
 
-        <div class="card" style="text-align:center;">
-            <h3 style="border-left: 4px solid #333; padding-left: 10px; display:inline-block;">📱 Download School App</h3>
-            <p style="color:#666; font-size:14px; margin-bottom: 20px;">हमारा ऑफिशियल स्कूल ऐप डाउनलोड करें!<br>सभी अपडेट, नोटिस और होमवर्क सीधे ऐप में प्राप्त करें।</p>
-            <a href="https://drive.google.com/file/d/1MEEBxqDFQvKdDInTJbFQR188JCAKKcDE/view?usp=drivesdk" target="_blank" class="btn-app-designer">
-                <i class="fa-brands fa-android" style="margin-right: 5px;"></i> DOWNLOAD OFFICIAL APP
-            </a>
-        </div>
-
-        <a href="https://gsssdhankoli.github.io/Gurukul-RESULT-/" target="_blank" class="btn-result">
-            🏆 CHECK RESULT
+        <a href="https://piyushroyal2545-prog.github.io/Gurukul-School-Admission-Form-/" class="btn-student-portal">
+            <i class="fas fa-user-graduate" style="margin-right: 10px;"></i> STUDENT PORTAL
         </a>
 
-        <!-- AUTH PORTAL -->
-        <div class="card" id="auth-portal">
-            <div style="text-align: center; margin-bottom: 15px;">
-                <div style="width: 60px; height: 60px; background: #1e3a8a; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 30px; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">👤</div>
-            </div>
-            <h3 id="portal-title" style="border-left: 4px solid #1e3a8a; padding-left: 10px; text-align: center;">🎓 Student Homework Portal</h3>
-            
-            <div id="step-mobile">
-                <label style="font-weight:bold; font-size:14px; color: #334155;">Mobile Number</label>
-                <input type="tel" id="mobile" class="form-input" placeholder="Enter Mobile Number">
-                <button onclick="sendOtp()" id="btn-otp" class="btn-black">GET OTP</button>
-            </div>
-
-            <div id="step-email" style="display: none;">
-                <p style="font-size: 13px; color: #dc2626; font-weight: bold;">First time login! Please register email.</p>
-                <label style="font-weight:bold; font-size:14px; color: #334155;">Email ID</label>
-                <input type="email" id="email" class="form-input" placeholder="Enter Email ID">
-                <button onclick="sendOtpWithEmail()" id="btn-email-otp" class="btn-black">SEND OTP TO EMAIL</button>
-            </div>
-
-            <div id="step-verify" style="display: none;">
-                <p style="font-size: 13px; color: #16a34a; font-weight: bold;">OTP sent to your email!</p>
-                <label style="font-weight:bold; font-size:14px; color: #334155;">Enter OTP</label>
-                <input type="number" id="otp" class="form-input" placeholder="Enter 6-digit OTP">
-                <button onclick="verifyOtp()" id="btn-verify" class="btn-black">VERIFY & LOGIN</button>
-            </div>
-
-            <div id="step-class" style="display: none;">
-                <label style="font-weight:bold; font-size:14px; color: #334155;">Select Your Class</label>
-                <select id="student-class" class="form-select">
-                    <option value="">-- Select Class --</option>
-                    <option value="1st">1st</option>
-                    <option value="2nd">2nd</option>
-                    <option value="3rd">3rd</option>
-                    <option value="4th">4th</option>
-                    <option value="5th">5th</option>
-                    <option value="6th">6th</option>
-                    <option value="7th">7th</option>
-                    <option value="8th">8th</option>
-                    <option value="9th">9th</option>
-                    <option value="10th">10th</option>
-                    <option value="11th Arts">11th Arts</option>
-                    <option value="11th Science">11th Science</option>
-                    <option value="12th Arts">12th Arts</option>
-                    <option value="12th Science">12th Science</option>
-                </select>
-                <button onclick="saveClassAndFinish()" class="btn-black">SAVE & SHOW HOMEWORK</button>
-            </div>
-            
-            <div class="switch-role" onclick="toggleRole()" id="role-text">Teacher Login Portal? Click Here</div>
+        <div class="card" style="text-align:center;">
+            <h3 style="border-left: 4px solid var(--text-color); padding-left: 10px; display:inline-block;">📱 Download School App</h3>
+            <p style="color:var(--text-color); opacity: 0.8; font-size:14px; margin-bottom: 20px;">हमारा ऑफिशियल स्कूल ऐप डाउनलोड करें!<br>सभी अपडेट, नोटिस और होमवर्क सीधे ऐप में प्राप्त करें।</p>
+            <a href="https://drive.google.com/file/d/1MEEBxqDFQvKdDInTJbFQR188JCAKKcDE/view?usp=drivesdk" target="_blank" class="btn-app-designer">
+                <i class="fa-brands fa-android" style="margin-right: 10px; font-size: 20px;"></i> DOWNLOAD OFFICIAL APP
+            </a>
         </div>
-
-        <!-- DASHBOARD -->
-        <div class="card dashboard-section" id="student-dash">
-            <h3 style="border-left: 4px solid #16a34a; padding-left: 10px;">📚 My Homework (Class: <span id="dash-class"></span>)</h3>
-            <div id="hw-list">Loading homework...</div>
-            <button onclick="logout()" class="btn-black" style="margin-top:15px;">LOGOUT</button>
-        </div>
-
-        <div class="card dashboard-section" id="teacher-dash">
-            <h3 style="border-left: 4px solid #0f766e; padding-left: 10px;">👨‍🏫 Add Homework</h3>
-            <select id="t-class" class="form-select">
-                <option value="1st">1st</option>
-                <option value="2nd">2nd</option>
-                <option value="3rd">3rd</option>
-                <option value="4th">4th</option>
-                <option value="5th">5th</option>
-                <option value="6th">6th</option>
-                <option value="7th">7th</option>
-                <option value="8th">8th</option>
-                <option value="9th">9th</option>
-                <option value="10th">10th</option>
-                <option value="11th Arts">11th Arts</option>
-                <option value="11th Science">11th Science</option>
-                <option value="12th Arts">12th Arts</option>
-                <option value="12th Science">12th Science</option>
-            </select>
-            <input type="text" id="t-sub" class="form-input" placeholder="Subject Name">
-            <textarea id="t-task" class="form-input" rows="3" placeholder="Write Homework Details..."></textarea>
-            <button onclick="addHomework()" id="btn-add-hw" class="btn-green">UPLOAD HOMEWORK</button>
-            
-            <h4 style="margin-top: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; color: #334155;">Your Past Uploads:</h4>
-            <div id="t-hw-list"></div>
-            <button onclick="logout()" class="btn-black" style="margin-top:15px;">LOGOUT</button>
-        </div>
-
-        <button class="btn-bus" onclick="trackBusAlert()">
-            <i class="fa-solid fa-bus" style="margin-right: 5px;"></i> TRACK YOUR BUS
-        </button>
 
         <div class="card">
             <div class="contact-header">📞 Contact us.</div>
             <p style="font-size:14px; margin-top:10px; margin-left:5px;"><b>Address:</b> Dhankoli (Maulasar), Rajasthan</p>
             <div class="contact-details-box">
-                <div class="contact-row"><span class="contact-icon">👤</span> <b>Director(R.C.Royal):</b> 9772564359</div>
-                <div class="contact-row"><span class="contact-icon">👤</span> <b>Chairman(H.S.Royal):</b> 9887071127</div>
+                <div class="contact-row"><span class="contact-icon"><i class="fas fa-user-tie"></i></span> <b>Director(R.C.Royal):</b> 9772564359</div>
+                <div class="contact-row"><span class="contact-icon"><i class="fas fa-user-tie"></i></span> <b>Chairman(H.S.Royal):</b> 9887071127</div>
             </div>
         </div>
 
-    </div> <!-- RAINBOW SECTION -->
+    </div> 
+    
     <section class="rainbow-section">
         <h2 class="rainbow-title">✨ स्कूल की मुख्य सुविधाएँ ✨</h2>
         <div class="r-grid">
             <div class="r-card"><i class="fas fa-shield-alt r-icon"></i><div class="r-head">सुरक्षा (Safety)</div><div class="r-desc">24/7 सीसीटीवी कैमरे, अग्निशमन यंत्र, जीपीएस युक्त सुरक्षित बस और प्रशिक्षित सुरक्षाकर्मी।</div></div>
-            <div class="r-card"><i class="fas fa-laptop-code r-icon" style="background: linear-gradient(45deg, #ff9900, #ff0000); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i><div class="r-head">शिक्षा और कौशल</div><div class="r-desc">आधुनिक स्मार्ट क्लासरूम, साइंस और कंप्यूटर लैब, और एक समृद्ध लाइब्रेरी।</div></div>
-            <div class="r-card"><i class="fas fa-hand-sparkles r-icon" style="background: linear-gradient(45deg, #00ff00, #009900); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i><div class="r-head">स्वच्छता (WASH)</div><div class="r-desc">साफ-सफाई, हैंडवाशिंग स्टेशन, नियमित शौचालय की सफाई और RO का पानी।</div></div>
-            <div class="r-card"><i class="fas fa-user-nurse r-icon" style="background: linear-gradient(45deg, #ff0066, #cc0000); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i><div class="r-head">स्वास्थ्य (Health)</div><div class="r-desc">प्राथमिक चिकित्सा (First Aid), नर्स/डॉक्टर की उपलब्धता और स्वास्थ्य जांच।</div></div>
-            <div class="r-card"><i class="fas fa-running r-icon" style="background: linear-gradient(45deg, #00ccff, #0000ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i><div class="r-head">शारीरिक विकास</div><div class="r-desc">विशाल खेल का मैदान, खेल उपकरण और मानसिक विकास के लिए काउंसलर।</div></div>
-            <div class="r-card"><i class="fas fa-wheelchair r-icon" style="background: linear-gradient(45deg, #9900ff, #ff00ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i><div class="r-head">समावेशी (Inclusive)</div><div class="r-desc">दिव्यांग बच्चों के लिए रैम्प और विशेष सुविधाएं ताकि शिक्षा सबके लिए हो।</div></div>
+            <div class="r-card"><i class="fas fa-laptop-code r-icon"></i><div class="r-head">शिक्षा और कौशल</div><div class="r-desc">आधुनिक स्मार्ट क्लासरूम, साइंस और कंप्यूटर लैब, और एक समृद्ध लाइब्रेरी।</div></div>
+            <div class="r-card"><i class="fas fa-hand-sparkles r-icon"></i><div class="r-head">स्वच्छता (WASH)</div><div class="r-desc">साफ-सफाई, हैंडवाशिंग स्टेशन, नियमित शौचालय की सफाई और RO का पानी।</div></div>
+            <div class="r-card"><i class="fas fa-user-nurse r-icon"></i><div class="r-head">स्वास्थ्य (Health)</div><div class="r-desc">प्राथमिक चिकित्सा (First Aid), नर्स/डॉक्टर की उपलब्धता और स्वास्थ्य जांच।</div></div>
+            <div class="r-card"><i class="fas fa-running r-icon"></i><div class="r-head">शारीरिक विकास</div><div class="r-desc">विशाल खेल का मैदान, खेल उपकरण और मानसिक विकास के लिए काउंसलर।</div></div>
+            <div class="r-card"><i class="fas fa-wheelchair r-icon"></i><div class="r-head">समावेशी (Inclusive)</div><div class="r-desc">दिव्यांग बच्चों के लिए रैम्प और विशेष सुविधाएं ताकि शिक्षा सबके लिए हो।</div></div>
         </div>
     </section>
 
-    <!-- NOTICE SECTION -->
     <section class="notice-section">
         <h2 class="notice-title">📢 महत्वपूर्ण सूचना (Notices) 📢</h2>
         <div class="notice-grid">
@@ -276,11 +270,10 @@
             <div class="n-card"><span class="n-badge">MERIT SCHOLARSHIP</span><span class="n-percent" style="color:#0000ff;">30% छूट</span><div class="n-text">कक्षा 10वीं बोर्ड में 90% से अधिक अंक लाने वाले होनहार बच्चों के लिए।</div></div>
             <div class="n-card"><span class="n-badge">GOVT. SCHEME</span><span class="n-percent" style="color:#009900;">25% फ्री</span><div class="n-text">R.T.E. (शिक्षा का अधिकार) के तहत प्रवेश पूर्णतः निःशुल्क (Free)।</div></div>
             <div class="n-card"><span class="n-badge">SUPPORT</span><span class="n-percent" style="color:#9900ff;">30% छूट</span><div class="n-text">दिव्यांग (Differently-abled) बच्चों को फीस में विशेष सहायता।</div></div>
-            <div class="n-card special-card"><span class="n-badge" style="background:#000;">NO FEES</span><span class="n-percent">100% मुफ़्त</span><div class="n-text">असहाय व अनाथ बच्चों के लिए<br>निःशुल्क शिक्षा की व्यवस्था।</div></div>
+            <div class="n-card special-card"><span class="n-badge" style="background:var(--text-color);">NO FEES</span><span class="n-percent">100% मुफ़्त</span><div class="n-text">असहाय व अनाथ बच्चों के लिए<br>निःशुल्क शिक्षा की व्यवस्था।</div></div>
         </div>
     </section>
     
-    <!-- FOOTER -->
     <footer class="main-footer">
         <div class="footer-content">
             <p style="margin:0; font-size: 15px;">Follow Us On Social Media:</p>
@@ -294,14 +287,83 @@
         </div>
     </footer>
 
-    <!-- LOGIC SCRIPT -->
     <script>
-        // यहाँ आपको अपना नया Apps Script Web App URL डालना है:
         const API_URL = "https://script.google.com/macros/s/AKfycbxhzii2kysOgV-khwl6QsnKxutvzmZGSCusrP2mhLzqHl2y7VhS-2NVq9gh4DfXotvm/exec"; 
-        
-        let currentRole = "Student";
-        let generatedOtp = null;
-        let sessionData = {};
+
+        const themes = {
+            'default': { bg: '#f4f6f8', text: '#333333', card: '#ffffff', nav: '#222222', header: 'linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3)', notice: '#fafafa', btnGrad: 'linear-gradient(45deg, #1e3a8a, #9333ea)', btnText: '#ffffff', btnShadow: 'rgba(30, 58, 138, 0.4)', borderCol: '#e2e8f0', noticeBorder: '#f8bbd0', noticeAccent: '#e91e63', headingCol: '#fbc02d', iconCol: '#4caf50' },
+            'dark': { bg: '#121212', text: '#e0e0e0', card: '#1e1e1e', nav: '#000000', header: 'linear-gradient(-45deg, #0f172a, #1e293b, #0f172a)', notice: '#1a1a1a', btnGrad: 'linear-gradient(45deg, #2563eb, #10b981)', btnText: '#ffffff', btnShadow: 'rgba(37, 99, 235, 0.3)', borderCol: '#334155', noticeBorder: '#2563eb', noticeAccent: '#10b981', headingCol: '#38bdf8', iconCol: '#34d399' },
+            'neon': { bg: '#0b0c10', text: '#66fcf1', card: '#1f2833', nav: '#000000', header: 'linear-gradient(-45deg, #ff007f, #7928ca, #00f3ff)', notice: '#0b0c10', btnGrad: 'linear-gradient(45deg, #ff007f, #00f3ff)', btnText: '#ffffff', btnShadow: 'rgba(255, 0, 127, 0.5)', borderCol: '#ff007f', noticeBorder: '#00f3ff', noticeAccent: '#ff007f', headingCol: '#00f3ff', iconCol: '#ff007f' },
+            'ocean': { bg: '#e0f2f1', text: '#004d40', card: '#ffffff', nav: '#00695c', header: 'linear-gradient(45deg, #004d40, #00897b, #4db6ac)', notice: '#e0f2f1', btnGrad: 'linear-gradient(45deg, #00695c, #26a69a)', btnText: '#ffffff', btnShadow: 'rgba(0,105,92,0.4)', borderCol: '#b2dfdb', noticeBorder: '#4db6ac', noticeAccent: '#00796b', headingCol: '#00695c', iconCol: '#00897b' },
+            'forest': { bg: '#f1f8e9', text: '#33691e', card: '#ffffff', nav: '#33691e', header: 'linear-gradient(45deg, #1b5e20, #4caf50, #81c784)', notice: '#f1f8e9', btnGrad: 'linear-gradient(45deg, #2e7d32, #66bb6a)', btnText: '#ffffff', btnShadow: 'rgba(46,125,50,0.4)', borderCol: '#c8e6c9', noticeBorder: '#81c784', noticeAccent: '#43a047', headingCol: '#2e7d32', iconCol: '#4caf50' },
+            'sunset': { bg: '#fff3e0', text: '#e65100', card: '#ffffff', nav: '#d84315', header: 'linear-gradient(45deg, #bf360c, #ff5722, #ffb74d)', notice: '#fff3e0', btnGrad: 'linear-gradient(45deg, #d84315, #ff7043)', btnText: '#ffffff', btnShadow: 'rgba(216,67,21,0.4)', borderCol: '#ffe0b2', noticeBorder: '#ffb74d', noticeAccent: '#f4511e', headingCol: '#e65100', iconCol: '#ff5722' },
+            'royal': { bg: '#f3e5f5', text: '#4a148c', card: '#ffffff', nav: '#311b92', header: 'linear-gradient(45deg, #4a148c, #7b1fa2, #ce93d8)', notice: '#f3e5f5', btnGrad: 'linear-gradient(45deg, #6a1b9a, #ab47bc)', btnText: '#ffffff', btnShadow: 'rgba(106,27,154,0.4)', borderCol: '#e1bee7', noticeBorder: '#ce93d8', noticeAccent: '#8e24aa', headingCol: '#6a1b9a', iconCol: '#9c27b0' },
+            'hacker': { bg: '#000000', text: '#00ff00', card: '#111111', nav: '#002200', header: 'linear-gradient(45deg, #001100, #003300, #001100)', notice: '#050505', btnGrad: 'linear-gradient(45deg, #005500, #00cc00)', btnText: '#000000', btnShadow: 'rgba(0,255,0,0.4)', borderCol: '#00ff00', noticeBorder: '#00ff00', noticeAccent: '#00aa00', headingCol: '#00ff00', iconCol: '#00ff00' },
+            'rose': { bg: '#fce4ec', text: '#880e4f', card: '#ffffff', nav: '#880e4f', header: 'linear-gradient(45deg, #880e4f, #d81b60, #f48fb1)', notice: '#fce4ec', btnGrad: 'linear-gradient(45deg, #ad1457, #ec407a)', btnText: '#ffffff', btnShadow: 'rgba(173,20,87,0.4)', borderCol: '#f8bbd0', noticeBorder: '#f48fb1', noticeAccent: '#c2185b', headingCol: '#ad1457', iconCol: '#e91e63' },
+            'midnight': { bg: '#1a1a2e', text: '#e0e0e0', card: '#16213e', nav: '#0f3460', header: 'linear-gradient(45deg, #0f3460, #16213e, #1a1a2e)', notice: '#1a1a2e', btnGrad: 'linear-gradient(45deg, #0f3460, #e94560)', btnText: '#ffffff', btnShadow: 'rgba(233,69,96,0.4)', borderCol: '#0f3460', noticeBorder: '#e94560', noticeAccent: '#e94560', headingCol: '#e94560', iconCol: '#e94560' },
+            'coffee': { bg: '#efebe9', text: '#3e2723', card: '#ffffff', nav: '#3e2723', header: 'linear-gradient(45deg, #3e2723, #5d4037, #bcaaa4)', notice: '#efebe9', btnGrad: 'linear-gradient(45deg, #4e342e, #8d6e63)', btnText: '#ffffff', btnShadow: 'rgba(78,52,46,0.4)', borderCol: '#d7ccc8', noticeBorder: '#bcaaa4', noticeAccent: '#6d4c41', headingCol: '#4e342e', iconCol: '#795548' }
+        };
+
+        // Custom Dropdown Logic
+        function toggleThemeDropdown() {
+            document.getElementById("themeDropdown").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.theme-dropbtn') && !event.target.closest('.theme-dropbtn')) {
+                var dropdowns = document.getElementsByClassName("theme-dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        function applyAndSaveTheme(themeKey, themeName, event) {
+            if(event) event.preventDefault();
+            document.getElementById('selectedThemeText').innerText = themeName;
+            changeTheme(themeKey);
+            localStorage.setItem("gkWebThemeName", themeName);
+        }
+
+        function changeTheme(selected) {
+            const t = themes[selected] || themes['default'];
+            
+            document.documentElement.style.setProperty('--bg-color', t.bg);
+            document.documentElement.style.setProperty('--text-color', t.text);
+            document.documentElement.style.setProperty('--card-bg', t.card);
+            document.documentElement.style.setProperty('--nav-bg', t.nav);
+            document.documentElement.style.setProperty('--header-bg', t.header);
+            document.documentElement.style.setProperty('--notice-bg', t.notice);
+            document.documentElement.style.setProperty('--btn-grad', t.btnGrad);
+            document.documentElement.style.setProperty('--btn-text', t.btnText);
+            document.documentElement.style.setProperty('--btn-shadow', t.btnShadow);
+            document.documentElement.style.setProperty('--border-color', t.borderCol);
+            document.documentElement.style.setProperty('--notice-border', t.noticeBorder);
+            document.documentElement.style.setProperty('--notice-accent', t.noticeAccent);
+            document.documentElement.style.setProperty('--heading-color', t.headingCol);
+            document.documentElement.style.setProperty('--icon-color', t.iconCol);
+            
+            localStorage.setItem("gkWebTheme", selected);
+        }
+
+        window.onload = () => {
+            let savedTheme = localStorage.getItem("gkWebTheme");
+            let savedThemeName = localStorage.getItem("gkWebThemeName");
+            if(savedTheme && savedThemeName) {
+                document.getElementById('selectedThemeText').innerText = savedThemeName;
+                changeTheme(savedTheme);
+            }
+
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 800);
+            }, 2000); 
+            
+            fetchNotices();
+        };
 
         function showNotice(message) {
             let toast = document.getElementById("custom-toast");
@@ -309,47 +371,6 @@
             toast.className = "show";
             setTimeout(function() { toast.className = toast.className.replace("show", ""); }, 3000);
         }
-
-        function checkOtpCooldown() {
-            let lastOtpTime = localStorage.getItem("gkOtpTime");
-            if(lastOtpTime) {
-                let diff = Math.floor((Date.now() - parseInt(lastOtpTime)) / 1000);
-                if(diff < 3600) {
-                    startOtpTimer('btn-otp', 3600 - diff);
-                    if(document.getElementById('btn-email-otp')) startOtpTimer('btn-email-otp', 3600 - diff);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function startOtpTimer(btnId, timeLeft) {
-            let otpBtn = document.getElementById(btnId);
-            if(!otpBtn) return;
-            otpBtn.disabled = true;
-            let timerInterval = setInterval(function() {
-                let minutes = Math.floor(timeLeft / 60);
-                let seconds = timeLeft % 60;
-                otpBtn.innerText = `Wait ${minutes}m ${seconds}s`;
-                timeLeft--;
-                if (timeLeft < 0) {
-                    clearInterval(timerInterval);
-                    otpBtn.disabled = false;
-                    otpBtn.innerText = (btnId === 'btn-otp') ? "GET OTP" : "SEND OTP TO EMAIL";
-                    localStorage.removeItem("gkOtpTime");
-                }
-            }, 1000);
-        }
-
-        window.onload = () => {
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 800);
-            }, 3000); 
-            fetchNotices();
-            checkSession();
-            checkOtpCooldown(); 
-        };
 
         function fetchNotices() {
             fetch(API_URL + "?action=getNotices").then(r=>r.json()).then(d => {
@@ -365,174 +386,6 @@
                     board.innerHTML = `<div class="notice-line">Welcome to Gurukul School Official Website.</div>`;
                 }
             }).catch(e => console.log("Notices failed to load."));
-        }
-
-        function trackBusAlert() {
-            showNotice("Gurukul School Dhankoli अपना official app जल्द ही लांच करेगा जिसमें आपको 22 feature दिखेंगे, उन्हीं के साथ ये feature भी मिलेगा।");
-        }
-
-        function toggleRole() {
-            if(currentRole === "Student") {
-                currentRole = "Teacher";
-                document.getElementById("portal-title").innerHTML = "👨‍🏫 Teacher Admin Portal";
-                document.getElementById("role-text").innerText = "Student Login Portal? Click Here";
-            } else {
-                currentRole = "Student";
-                document.getElementById("portal-title").innerHTML = "🎓 Student Homework Portal";
-                document.getElementById("role-text").innerText = "Teacher Login Portal? Click Here";
-            }
-        }
-
-        function sendApiRequest(data, successCallback, btnId) {
-            fetch(API_URL, {
-                method: "POST",
-                redirect: "follow",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify(data)
-            }).then(r=>r.json()).then(d => {
-                successCallback(d);
-            }).catch(error => {
-                showNotice("Server Error! Ensure API_URL is correct.");
-                document.getElementById(btnId).innerText = "GET OTP";
-            });
-        }
-
-        function sendOtp() {
-            let mobile = document.getElementById('mobile').value;
-            if(mobile.length < 10) return showNotice("Enter valid mobile number!");
-            document.getElementById('btn-otp').innerText = "CHECKING...";
-            
-            sendApiRequest({action: "sendOtp", mobile: mobile, email: "", role: currentRole}, function(d) {
-                if(d.status === "needs_email") {
-                    document.getElementById('step-mobile').style.display = "none";
-                    document.getElementById('step-email').style.display = "block";
-                } else if(d.status === "success") {
-                    generatedOtp = d.otp;
-                    sessionData = { mobile: mobile, email: d.targetEmail, role: currentRole, class: d.savedClass };
-                    document.getElementById('step-mobile').style.display = "none";
-                    document.getElementById('step-verify').style.display = "block";
-                    
-                    localStorage.setItem("gkOtpTime", Date.now());
-                    startOtpTimer('btn-otp', 3600);
-                } else {
-                    showNotice(d.msg || "Error!");
-                    document.getElementById('btn-otp').innerText = "GET OTP";
-                }
-            }, 'btn-otp');
-        }
-
-        function sendOtpWithEmail() {
-            let email = document.getElementById('email').value;
-            if(!email.includes("@")) return showNotice("Enter valid email!");
-            let mobile = document.getElementById('mobile').value;
-            document.getElementById('btn-email-otp').innerText = "SENDING...";
-            
-            sendApiRequest({action: "sendOtp", mobile: mobile, email: email, role: currentRole}, function(d) {
-                if(d.status === "success") {
-                    generatedOtp = d.otp;
-                    sessionData = { mobile: mobile, email: email, role: currentRole, class: "" };
-                    document.getElementById('step-email').style.display = "none";
-                    document.getElementById('step-verify').style.display = "block";
-                    
-                    localStorage.setItem("gkOtpTime", Date.now());
-                    startOtpTimer('btn-email-otp', 3600);
-                } else {
-                    showNotice(d.msg || "Error sending OTP.");
-                    document.getElementById('btn-email-otp').innerText = "SEND OTP TO EMAIL";
-                }
-            }, 'btn-email-otp');
-        }
-
-        function verifyOtp() {
-            let inputOtp = document.getElementById('otp').value;
-            if(inputOtp == generatedOtp) {
-                if(currentRole === "Student" && !sessionData.class) {
-                    document.getElementById('step-verify').style.display = "none";
-                    document.getElementById('step-class').style.display = "block";
-                } else {
-                    finishLogin();
-                }
-            } else {
-                showNotice("Incorrect OTP!");
-            }
-        }
-
-        function saveClassAndFinish() {
-            let sClass = document.getElementById('student-class').value;
-            if(!sClass) return showNotice("Select Class!");
-            sessionData.class = sClass;
-            
-            sendApiRequest({action: "saveUser", mobile: sessionData.mobile, studentClass: sClass}, function(d){}, 'btn-otp');
-            finishLogin();
-        }
-
-        function finishLogin() {
-            localStorage.setItem("gkSessionData", JSON.stringify(sessionData));
-            confetti({ particleCount: 100, spread: 70 });
-            checkSession();
-        }
-
-        function checkSession() {
-            let s = localStorage.getItem("gkSessionData");
-            if(s) {
-                sessionData = JSON.parse(s);
-                document.getElementById('auth-portal').style.display = "none";
-                
-                if(sessionData.role === "Student") {
-                    document.getElementById('student-dash').style.display = "block";
-                    document.getElementById('dash-class').innerText = sessionData.class;
-                    loadStudentHomework();
-                } else {
-                    document.getElementById('teacher-dash').style.display = "block";
-                    loadTeacherHomework();
-                }
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem("gkSessionData");
-            location.reload();
-        }
-
-        function loadStudentHomework() {
-            document.getElementById('hw-list').innerHTML = "Fetching last 15 days data...";
-            fetch(API_URL + "?action=getHomework&studentClass=" + sessionData.class).then(r=>r.json()).then(d => {
-                let html = "";
-                if(!d.homework || d.homework.length === 0) html = "<p style='color:#dc2626; font-weight:bold;'>No homework found for last 15 days.</p>";
-                else {
-                    d.homework.forEach(h => { html += `<div class="hw-box"><div class="hw-date">📅 ${h.date}</div><div class="hw-sub">${h.subject}</div><div class="hw-task">${h.task}</div></div>`; });
-                }
-                document.getElementById('hw-list').innerHTML = html;
-            }).catch(e => { document.getElementById('hw-list').innerHTML = "Failed to load."; });
-        }
-
-        function addHomework() {
-            let tClass = document.getElementById('t-class').value;
-            let sub = document.getElementById('t-sub').value;
-            let task = document.getElementById('t-task').value;
-            let btn = document.getElementById('btn-add-hw');
-
-            if(!sub || !task) return showNotice("Fill all details!");
-            btn.innerText = "UPLOADING...";
-
-            sendApiRequest({action: "addHomework", hwClass: tClass, subject: sub, task: task, mobile: sessionData.mobile}, function(d) {
-                btn.innerText = "UPLOAD HOMEWORK";
-                document.getElementById('t-sub').value = "";
-                document.getElementById('t-task').value = "";
-                loadTeacherHomework();
-                showNotice("Homework Added Successfully!");
-            }, 'btn-add-hw');
-        }
-
-        function loadTeacherHomework() {
-            fetch(API_URL + "?action=getTeacherHomework&mobile=" + sessionData.mobile).then(r=>r.json()).then(d => {
-                let html = "";
-                if(!d.homework || d.homework.length === 0) html = "<p>No uploads yet.</p>";
-                else {
-                    d.homework.forEach(h => { html += `<div class="hw-box" style="border-left-color: #0f766e;"><div class="hw-date">📅 ${h.date} | Class: ${h.class}</div><div class="hw-sub">${h.subject}</div><div class="hw-task">${h.task}</div></div>`; });
-                }
-                document.getElementById('t-hw-list').innerHTML = html;
-            }).catch(e => { document.getElementById('t-hw-list').innerHTML = "Failed to load."; });
         }
     </script>
 </body>
